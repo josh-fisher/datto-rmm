@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'type-enum': [
@@ -22,12 +22,16 @@ export default {
       1,
       'always',
       [
-        'api',      // TypeScript API client
-        'rust',     // Rust API client
-        'docs',     // Documentation
-        'specs',    // OpenAPI specs
-        'ci',       // CI/CD workflows
-        'deps',     // Dependencies
+        'api',        // TypeScript API client
+        'mcp-server', // MCP server
+        'rust',       // Rust API client
+        'docs',       // Documentation
+        'specs',      // OpenAPI specs
+        'ci',         // CI/CD workflows
+        'deps',       // Dependencies
+        'config',     // Configuration files
+        'tests',      // Test files
+        'repo',       // Repository-wide changes
       ],
     ],
   },
