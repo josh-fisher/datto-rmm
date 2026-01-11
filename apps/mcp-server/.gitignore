@@ -1,0 +1,29 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Turbo cache
+.turbo/
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment variables (contains API credentials)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,51 @@
+---
+title: Datto RMM Tooling
+description: Documentation for the Datto RMM tooling monorepo
+template: splash
+hero:
+  tagline: Comprehensive documentation for developers working with Datto RMM tooling
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Get Started
+      link: /getting-started/introduction/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/josh-fisher/datto-rmm
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Quick Links
+
+<CardGrid stagger>
+  <Card title="Getting Started" icon="rocket">
+    New to the project? Start here to get your development environment set up.
+    [Read the guide](/getting-started/introduction/)
+  </Card>
+  <Card title="MCP Server" icon="seti:config">
+    Integrate Datto RMM with AI assistants using the Model Context Protocol.
+    [MCP Server docs](/api/mcp-server/)
+  </Card>
+  <Card title="TypeScript Client" icon="seti:typescript">
+    Fully typed TypeScript client for the Datto RMM API.
+    [TypeScript docs](/api/typescript-client/)
+  </Card>
+  <Card title="Architecture" icon="puzzle">
+    Understand how the monorepo is structured and the key architectural decisions.
+    [Explore architecture](/architecture/)
+  </Card>
+</CardGrid>
+
+## About This Documentation
+
+This documentation site is built with [Starlight](https://starlight.astro.build/), providing:
+
+- Fast, accessible documentation
+- Full-text search
+- Dark/light mode
+- MDX support for interactive components
+
+All documentation lives in `apps/docs/` and is part of the monorepo.

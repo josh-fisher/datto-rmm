@@ -1,0 +1,164 @@
+name: Sync OpenAPI Spec
+
+on:
+  schedule:
+    # Run nightly at 2:00 AM UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force regeneration even if spec unchanged"
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+  PNPM_VERSION: "9.14.2"
+  DATTO_PLATFORM: "merlot"
+
+jobs:
+  check-and-sync:
+    name: Check for API Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      has_changes: ${{ steps.check.outputs.has_changes }}
+      api_version: ${{ steps.check.outputs.api_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Setup Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Get current spec checksum
+        id: current
+        run: |
+          if [ -f specs/datto-rmm-openapi.json ]; then
+            echo "checksum=$(sha256sum specs/datto-rmm-openapi.json | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+            echo "version=$(jq -r '.info.version' specs/datto-rmm-openapi.json)" >> $GITHUB_OUTPUT
+          else
+            echo "checksum=none" >> $GITHUB_OUTPUT
+            echo "version=none" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fetch latest OpenAPI spec
+        run: |
+          curl -sSL "https://${DATTO_PLATFORM}-api.centrastage.net/api/v3/api-docs/Datto-RMM" \
+            | jq '.' > specs/datto-rmm-openapi.json.new
+
+      - name: Get new spec checksum
+        id: new
+        run: |
+          echo "checksum=$(sha256sum specs/datto-rmm-openapi.json.new | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+          echo "version=$(jq -r '.info.version' specs/datto-rmm-openapi.json.new)" >> $GITHUB_OUTPUT
+
+      - name: Check for changes
+        id: check
+        run: |
+          if [ "${{ steps.current.outputs.checksum }}" != "${{ steps.new.outputs.checksum }}" ] || [ "${{ inputs.force }}" == "true" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "api_version=${{ steps.new.outputs.version }}" >> $GITHUB_OUTPUT
+            echo "API spec has changed (or force=true)"
+            echo "  Old version: ${{ steps.current.outputs.version }}"
+            echo "  New version: ${{ steps.new.outputs.version }}"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "api_version=${{ steps.current.outputs.version }}" >> $GITHUB_OUTPUT
+            echo "No changes detected in API spec"
+          fi
+
+      - name: Update spec file
+        if: steps.check.outputs.has_changes == 'true'
+        run: mv specs/datto-rmm-openapi.json.new specs/datto-rmm-openapi.json
+
+      - name: Cleanup temp file
+        if: steps.check.outputs.has_changes != 'true'
+        run: rm -f specs/datto-rmm-openapi.json.new
+
+      - name: Generate TypeScript client
+        if: steps.check.outputs.has_changes == 'true'
+        run: pnpm --filter @datto-rmm/api generate
+
+      - name: Build TypeScript client
+        if: steps.check.outputs.has_changes == 'true'
+        run: pnpm --filter @datto-rmm/api build
+
+      - name: Run TypeScript tests
+        if: steps.check.outputs.has_changes == 'true'
+        run: pnpm --filter @datto-rmm/api test
+
+      - name: Build Rust client
+        if: steps.check.outputs.has_changes == 'true'
+        run: cargo build -p datto-api
+
+      - name: Run Rust tests
+        if: steps.check.outputs.has_changes == 'true'
+        run: cargo test -p datto-api
+
+      - name: Create Pull Request
+        if: steps.check.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(specs): update OpenAPI spec to v${{ steps.check.outputs.api_version }}"
+          title: "chore(specs): update OpenAPI spec to v${{ steps.check.outputs.api_version }}"
+          body: |
+            ## Automated API Sync
+
+            This PR was automatically created by the nightly API sync workflow.
+
+            ### Changes
+
+            - Updated OpenAPI specification to version **${{ steps.check.outputs.api_version }}**
+            - Regenerated TypeScript types
+            - Verified TypeScript client builds and tests pass
+            - Verified Rust client builds and tests pass
+
+            ### Review Checklist
+
+            - [ ] Review the spec changes in `specs/datto-rmm-openapi.json`
+            - [ ] Review generated type changes in `packages/api/src/generated/types.ts`
+            - [ ] Check for any breaking changes that need documentation updates
+
+            ---
+            *This PR was created automatically by the [Sync OpenAPI Spec](${{ github.server_url }}/${{ github.repository }}/actions/workflows/sync-api.yml) workflow.*
+          branch: chore/update-openapi-spec
+          delete-branch: true
+          labels: |
+            automated
+            dependencies
+            specs

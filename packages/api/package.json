@@ -1,0 +1,71 @@
+{
+  "name": "@datto-rmm/api",
+  "version": "0.1.0",
+  "description": "Auto-generated TypeScript client for the Datto RMM API",
+  "author": "josh-fisher",
+  "license": "MIT",
+  "homepage": "https://github.com/josh-fisher/datto-rmm#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josh-fisher/datto-rmm.git",
+    "directory": "packages/api"
+  },
+  "bugs": {
+    "url": "https://github.com/josh-fisher/datto-rmm/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js"
+    },
+    "./types": {
+      "types": "./dist/generated/types.d.ts",
+      "import": "./dist/generated/types.js"
+    },
+    "./platforms": {
+      "types": "./dist/platforms.d.ts",
+      "import": "./dist/platforms.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "generate": "tsx scripts/generate.ts",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'No linting configured'",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.13.5"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.6.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "keywords": [
+    "datto",
+    "rmm",
+    "api",
+    "client",
+    "openapi",
+    "typescript",
+    "rest"
+  ]
+}

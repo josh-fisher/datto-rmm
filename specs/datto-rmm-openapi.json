@@ -1,0 +1,6412 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Datto RMM API",
+    "description": "Datto RMM (Remote Monitoring and Management) REST API",
+    "license": {
+      "name": "©Datto, Inc. - All rights reserved. ",
+      "url": "http://www.datto.com/"
+    },
+    "version": "2.0.0 (Build 1.22.1-576_667cfe9f)"
+  },
+  "servers": [
+    {
+      "url": "https://merlot-api.centrastage.net/api",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "/v2/site",
+      "description": "Operations on sites"
+    },
+    {
+      "name": "/v2/account",
+      "description": "Operations on accounts"
+    },
+    {
+      "name": "/v2/activity-logs",
+      "description": "Fetching RMM Activity Logs"
+    },
+    {
+      "name": "/v2/filter",
+      "description": "Operations on filters"
+    },
+    {
+      "name": "/v2/audit",
+      "description": "Operations on audit data"
+    },
+    {
+      "name": "/v2/system",
+      "description": "RMM API System operations"
+    },
+    {
+      "name": "/v2/alert",
+      "description": "Operations on alerts"
+    },
+    {
+      "name": "/v2/job",
+      "description": "Operations on jobs"
+    },
+    {
+      "name": "/v2/user",
+      "description": "Operations on users"
+    },
+    {
+      "name": "/v2/device",
+      "description": "Operations on devices"
+    }
+  ],
+  "paths": {
+    "/v2/site": {
+      "put": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Creates a new site in the authenticated user's account.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSiteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "400": {
+            "description": "Request is invalid.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/variable": {
+      "put": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Creates a site variable in the site identified by the given site Uid.",
+        "operationId": "createSiteVariable",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Variable Creation Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          },
+          "404": {
+            "description": "Variable was not found."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}/site/{siteUid}": {
+      "put": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Moves a device from one site to another site.",
+        "operationId": "moveDevice",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "description": "The UID of the device to move to a different site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "siteUid",
+            "in": "path",
+            "description": "The UID of the target site",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "404": {
+            "description": "Device and/or site not found."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}/quickjob": {
+      "put": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Creates a quick job on the device identified by the given device Uid.",
+        "operationId": "createQuickJob",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuickJobRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuickJobResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuickJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request data is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuickJobResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request cannot be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuickJobResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/variable": {
+      "put": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Creates an account variable",
+        "operationId": "createAccountVariable",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Variable Creation Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          },
+          "404": {
+            "description": "Variable was not found."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/user/resetApiKeys": {
+      "post": {
+        "tags": [
+          "/v2/user"
+        ],
+        "summary": "Resets the authenticated user's API access and secret keys.",
+        "operationId": "resetApiKeys",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserKey"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches data of the site (including total number of devices) identified by the given site Uid.",
+        "operationId": "getSite",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Updates the site identified by the given site Uid.",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SiteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request is invalid.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/variable/{variableId}": {
+      "post": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Updates the site variable identified by the given site Uid and variable Id.",
+        "operationId": "updateSiteVariable",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Variable Update Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          },
+          "404": {
+            "description": "Variable was not found."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Deletes the site variable identified by the given site Uid and variable Id.",
+        "operationId": "deleteSiteVariable",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          },
+          "404": {
+            "description": "Variable was not found."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/settings/proxy": {
+      "post": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Creates/updates the proxy settings for the site identified by the given site Uid.",
+        "operationId": "updateProxy",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProxySettings"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request parameters are invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Deletes site proxy settings for the site identified by the given site Uid.",
+        "operationId": "deleteProxy",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "404": {
+            "description": "Site was not found."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          },
+          "204": {
+            "description": "Nothing was done because the proxy data doesn't exist."
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}/warranty": {
+      "post": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Sets the warranty of a device identified by the given device Uid.",
+        "description": "The warrantyDate field should be a ISO 8601 string with this format: yyyy-mm-dd. The warranty date can also be set to null.",
+        "operationId": "setWarrantyData",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warranty"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "404": {
+            "description": "Device was not found."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request is invalid."
+          },
+          "401": {
+            "description": "Request cannot be authorized."
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}/udf": {
+      "post": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Sets the user defined fields of a device identified by the given device Uid.",
+        "description": "Any user defined field supplied with an empty value will be set to null. All user defined fields not supplied will retain their current values.",
+        "operationId": "setUdfFields",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Udf"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "404": {
+            "description": "Device was not found."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request is invalid."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/alert/{alertUid}/unmute": {
+      "post": {
+        "tags": [
+          "/v2/alert"
+        ],
+        "summary": "Alerts can no longer be un-muted, as of the 8.9.0 release.",
+        "operationId": "unmuteAlert",
+        "parameters": [
+          {
+            "name": "alertUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "200": {
+            "description": "OK"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/v2/alert/{alertUid}/resolve": {
+      "post": {
+        "tags": [
+          "/v2/alert"
+        ],
+        "summary": "Resolves the alert identified by the given alert Uid.",
+        "operationId": "resolveAlert",
+        "parameters": [
+          {
+            "name": "alertUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/alert/{alertUid}/mute": {
+      "post": {
+        "tags": [
+          "/v2/alert"
+        ],
+        "summary": "Alerts can no longer be muted, as of the 8.9.0 release.",
+        "operationId": "muteAlert",
+        "parameters": [
+          {
+            "name": "alertUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "200": {
+            "description": "OK"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/v2/account/variable/{variableId}": {
+      "post": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Updates the account variable identified by the given variable Id.",
+        "operationId": "updateAccountVariable",
+        "parameters": [
+          {
+            "name": "variableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Variable Update Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          },
+          "404": {
+            "description": "Variable was not found."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Deletes the account variable identified by the given variable Id.",
+        "operationId": "deleteAccountVariable",
+        "parameters": [
+          {
+            "name": "variableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Request aborted due to concurrent write access to this record."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          },
+          "404": {
+            "description": "Variable was not found."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/system/status": {
+      "get": {
+        "tags": [
+          "/v2/system"
+        ],
+        "summary": "Fetches the system status (start date, status and version).",
+        "description": "An API access token is not necessary.",
+        "operationId": "getStatus",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/system/request_rate": {
+      "get": {
+        "tags": [
+          "/v2/system"
+        ],
+        "summary": "Fetches the request rate status for the authenticated user's account.",
+        "operationId": "get",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateStatusResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/system/pagination": {
+      "get": {
+        "tags": [
+          "/v2/system"
+        ],
+        "summary": "Fetches the pagination configurations.",
+        "operationId": "getPaginationConfigurations",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationConfiguration"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationConfiguration"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/variables": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches the variables of the site identified by the given site Uid.",
+        "operationId": "getSiteVariables",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariablesPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariablesPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariablesPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/settings": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches settings of the site identified by the given site Uid.",
+        "operationId": "getSiteSettings",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/filters": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches the site device filters (that the user can see with administrator role) of the site identified by the given site Uid.",
+        "operationId": "getSiteDeviceFilters",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/devices": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches the devices records of the site identified by the given site Uid.",
+        "operationId": "getSiteDevices",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filterId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site or filter not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/devices/network-interface": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches the shortened devices records with network interface information of the site identified by the given site Uid.",
+        "operationId": "getSiteDevicesWithNetworkInterface",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site or filter not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesNetworkInterfacePage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesNetworkInterfacePage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesNetworkInterfacePage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/alerts/resolved": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches the resolved alerts of the site identified by the given site Uid.",
+        "description": "If the muted parameter is not provided, both muted and umuted alerts will be queried.",
+        "operationId": "getSiteResolvedAlerts",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "muted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/site/{siteUid}/alerts/open": {
+      "get": {
+        "tags": [
+          "/v2/site"
+        ],
+        "summary": "Fetches the open alerts of the site identified by the given site Uid.",
+        "description": "If the muted parameter is not provided, both muted and umuted alerts will be queried.",
+        "operationId": "getSiteOpenAlerts",
+        "parameters": [
+          {
+            "name": "siteUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "muted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Site was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/job/{jobUid}": {
+      "get": {
+        "tags": [
+          "/v2/job"
+        ],
+        "summary": "Fetches data of the job identified by the given job Uid.",
+        "operationId": "get_1",
+        "parameters": [
+          {
+            "name": "jobUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Job was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/job/{jobUid}/results/{deviceUid}": {
+      "get": {
+        "tags": [
+          "/v2/job"
+        ],
+        "summary": "Fetches job results of the job identified by the job Uid for device identified by the device Uid.",
+        "operationId": "getJobResults",
+        "parameters": [
+          {
+            "name": "jobUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Job or device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResults"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResults"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/job/{jobUid}/results/{deviceUid}/stdout": {
+      "get": {
+        "tags": [
+          "/v2/job"
+        ],
+        "summary": "Fetches data of the job's StdOut identified by the given job Uid and device Uid.",
+        "operationId": "getStdOut",
+        "parameters": [
+          {
+            "name": "jobUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Job or device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobStdData"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobStdData"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobStdData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/job/{jobUid}/results/{deviceUid}/stderr": {
+      "get": {
+        "tags": [
+          "/v2/job"
+        ],
+        "summary": "Fetches data of the job's StdErr identified by the given job Uid and device Uid.",
+        "operationId": "getStdErr",
+        "parameters": [
+          {
+            "name": "jobUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Job or device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobStdData"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobStdData"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobStdData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/job/{jobUid}/components": {
+      "get": {
+        "tags": [
+          "/v2/job"
+        ],
+        "summary": "Fetches components of the job identified by the given job Uid.",
+        "operationId": "getJobComponents",
+        "parameters": [
+          {
+            "name": "jobUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Job was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobComponentsPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobComponentsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobComponentsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/filter/default-filters": {
+      "get": {
+        "tags": [
+          "/v2/filter"
+        ],
+        "summary": "Fetches the default device filters.",
+        "operationId": "getDefaultsFilters",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/filter/custom-filters": {
+      "get": {
+        "tags": [
+          "/v2/filter"
+        ],
+        "summary": "Fetches the custom device filters for the user (using administrator role).",
+        "operationId": "getCustomFilters",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiltersPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}": {
+      "get": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Fetches data of the device identified by the given device Uid.",
+        "operationId": "getByUid",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}/alerts/resolved": {
+      "get": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Fetches the resolved alerts of the device identified by the given device Uid.",
+        "description": "If the muted parameter is not provided, both muted and umuted alerts will be queried.",
+        "operationId": "getDeviceResolvedAlerts",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "muted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/device/{deviceUid}/alerts/open": {
+      "get": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Fetches the open alerts of the device identified by the given device Uid.",
+        "description": "If the muted parameter is not provided, both muted and umuted alerts will be queried.",
+        "operationId": "getDeviceOpenAlerts",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "muted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/device/macAddress/{macAddress}": {
+      "get": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Fetches data of the device(s) identified by the given MAC address in format: XXXXXXXXXXXX",
+        "operationId": "getByMacAddress",
+        "parameters": [
+          {
+            "name": "macAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "200": {
+            "description": "Device was found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Device"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device was not found."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/device/id/{deviceId}": {
+      "get": {
+        "tags": [
+          "/v2/device"
+        ],
+        "summary": "Fetches data of the device identified by the given device Id.",
+        "operationId": "getById",
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/audit/printer/{deviceUid}": {
+      "get": {
+        "tags": [
+          "/v2/audit"
+        ],
+        "summary": "Fetches audit data of the printer identified the given device Uid.",
+        "description": "The device class must be of type \"printer\".",
+        "operationId": "getPrinterAudit",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Printer was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterAudit"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterAudit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The device identified by the given device UID is not of class printer.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterAudit"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrinterAudit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/audit/esxihost/{deviceUid}": {
+      "get": {
+        "tags": [
+          "/v2/audit"
+        ],
+        "summary": "Fetches audit data of the ESXi host identified the given device Uid.",
+        "description": "The device class must be of type \"esxihost\".",
+        "operationId": "getEsxiHostAudit",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ESXiHostAudit"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ESXiHostAudit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The device identified by the given device UID is not of class ESXi host.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ESXiHostAudit"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ESXiHostAudit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/audit/device/{deviceUid}": {
+      "get": {
+        "tags": [
+          "/v2/audit"
+        ],
+        "summary": "Fetches audit data of the generic device identified the given device Uid.",
+        "description": "The device class must be of type \"device\".",
+        "operationId": "getDeviceAudit",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceAudit"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceAudit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The device identified by the given device UID is not of class device.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceAudit"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceAudit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/audit/device/{deviceUid}/software": {
+      "get": {
+        "tags": [
+          "/v2/audit"
+        ],
+        "summary": "Fetches audited software of the generic device identified the given device Uid.",
+        "description": "The device class must be of type \"device\".",
+        "operationId": "getDeviceAuditSoftware",
+        "parameters": [
+          {
+            "name": "deviceUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "404": {
+            "description": "Device was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoftwarePage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoftwarePage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The device identified by the given device UID is not of class device.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoftwarePage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoftwarePage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/audit/device/macAddress/{macAddress}": {
+      "get": {
+        "tags": [
+          "/v2/audit"
+        ],
+        "summary": "Fetches audit data of the generic device(s) identified the given MAC address in format: XXXXXXXXXXXX",
+        "description": "The device class must be of type \"device\".",
+        "operationId": "getDeviceAuditByMacAddress",
+        "parameters": [
+          {
+            "name": "macAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "200": {
+            "description": "Audit data was found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceAudit"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device was not found."
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "400": {
+            "description": "The device identified by the given device MAC address is not of class device."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          }
+        }
+      }
+    },
+    "/v2/alert/{alertUid}": {
+      "get": {
+        "tags": [
+          "/v2/alert"
+        ],
+        "summary": "Fetches data of the alert identified by the given alert Uid.",
+        "operationId": "getAlert",
+        "parameters": [
+          {
+            "name": "alertUid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alert"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alert"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/activity-logs": {
+      "get": {
+        "tags": [
+          "/v2/activity-logs"
+        ],
+        "summary": "Fetches the activity logs.",
+        "operationId": "getActivities",
+        "parameters": [
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Specifies the number of records to be returned",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 20
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Specifies the order in which records should be returned based on their creation date",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "example": "asc"
+          },
+          {
+            "name": "searchAfter",
+            "in": "query",
+            "description": "Acts as a pointer to determine the starting point for returning records from the database. It is not advised to set this parameter manually. Instead, it is recommended to utilize the 'prevPage' and 'nextPage' URLs that are returned in the response where this parameter in already included.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": "1662554037000,60761aa3-d03e-3d76-b75b-da28629a4103"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "next",
+                "previous"
+              ]
+            },
+            "example": "next"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Defines the UTC start date for fetching data. By default API returns logs from last 15 minutes. Format: yyyy-MM-ddTHH:mm:ssZ",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2022-12-21T10:15:30Z"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Defines the UTC end date for fetching data. Format: yyyy-MM-ddTHH:mm:ssZ",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2023-02-25T10:15:30Z"
+          },
+          {
+            "name": "entities",
+            "in": "query",
+            "description": "Filters the returned activity logs based on their type. It can take multiple values separated by comma",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "enum": [
+                "device",
+                "user"
+              ],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "device",
+                  "user"
+                ]
+              }
+            },
+            "example": "device"
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "description": "Filters the returned activity logs based on their category. It can take multiple values separated by comma",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": "job,device"
+          },
+          {
+            "name": "actions",
+            "in": "query",
+            "description": "Filters the returned activity logs based on their action. It can take multiple values separated by comma",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": "deployment,note"
+          },
+          {
+            "name": "siteIds",
+            "in": "query",
+            "description": "Filters the returned activity logs based on the site they were created in. It can take multiple values separated by comma",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "example": "4,8"
+          },
+          {
+            "name": "userIds",
+            "in": "query",
+            "description": "Filters the returned activity logs based on the user they are associated with. It can take multiple values separated by comma",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "example": "1,4"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityLogsPage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource."
+          },
+          "401": {
+            "description": "Request can not be authorized."
+          },
+          "400": {
+            "description": "Request parameters are invalid."
+          }
+        }
+      }
+    },
+    "/v2/account": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the authenticated user's account data.",
+        "operationId": "getUserAccount",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/variables": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the account variables.",
+        "operationId": "getAccountVariables",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariablesPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariablesPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/users": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the authentication users records of the authenticated user's account.",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/sites": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the site records of the authenticated user's account.",
+        "operationId": "getSites",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "siteName",
+            "in": "query",
+            "description": "Optional. Filters results based on the provided value using the LIKE operator. Partial matches are allowed.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SitesPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SitesPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/dnet-site-mappings": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the sites records with its mapped dnet network id for the authenticated user's account.",
+        "operationId": "getDnetSiteMappings",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DnetSiteMappingsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DnetSiteMappingsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/devices": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the devices of the authenticated user's account.",
+        "operationId": "getUserAccountDevices",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filterId",
+            "in": "query",
+            "description": "Optional. If applied, this filter exclusively determines the results.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "hostname",
+            "in": "query",
+            "description": "Optional. Filters results based on the provided value using the LIKE operator. Partial matches are allowed.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "Optional. Filters results based on the provided value using the LIKE operator. Partial matches are allowed.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operatingSystem",
+            "in": "query",
+            "description": "Optional. Filters results based on the provided value using the LIKE operator. Partial matches are allowed.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "siteName",
+            "in": "query",
+            "description": "Optional. Filters results based on the provided value using the LIKE operator. Partial matches are allowed.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesPage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Filter was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevicesPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/components": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches the components records of the authenticated user's account.",
+        "operationId": "getComponents",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/alerts/resolved": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches resolved alerts of the authenticated user's account.",
+        "description": "If the muted parameter is not provided, both muted and umuted alerts will be queried.",
+        "operationId": "getUserAccountClosedAlerts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "muted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/account/alerts/open": {
+      "get": {
+        "tags": [
+          "/v2/account"
+        ],
+        "summary": "Fetches open alerts of the authenticated user's account.",
+        "description": "If the muted parameter is not provided, both muted and umuted alerts will be queried.",
+        "operationId": "getUserAccountOpenAlerts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "muted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "403": {
+            "description": "Authenticated user doesn't have access to this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request can not be authorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsPage"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateSiteRequest": {
+        "type": "object",
+        "description": "Create a site request.",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "onDemand": {
+            "type": "boolean"
+          },
+          "splashtopAutoInstall": {
+            "type": "boolean"
+          },
+          "proxySettings": {
+            "$ref": "#/components/schemas/ProxySettings"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ProxySettings": {
+        "type": "object",
+        "description": "Site's Proxy Settings",
+        "properties": {
+          "host": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "http",
+              "socks4",
+              "socks5"
+            ]
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "DevicesStatus": {
+        "type": "object",
+        "description": "Devices Status",
+        "properties": {
+          "numberOfDevices": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfOnlineDevices": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfOfflineDevices": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Site": {
+        "type": "object",
+        "description": "Site data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uid": {
+            "type": "string",
+            "description": "Unique alphanumeric UID of this site"
+          },
+          "accountUid": {
+            "type": "string",
+            "description": "Unique alphanumeric UID of the account to which this site belongs"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "onDemand": {
+            "type": "boolean"
+          },
+          "splashtopAutoInstall": {
+            "type": "boolean"
+          },
+          "proxySettings": {
+            "$ref": "#/components/schemas/ProxySettings"
+          },
+          "devicesStatus": {
+            "$ref": "#/components/schemas/DevicesStatus"
+          },
+          "autotaskCompanyName": {
+            "type": "string"
+          },
+          "autotaskCompanyId": {
+            "type": "string"
+          },
+          "portalUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "Variable Creation Request": {
+        "type": "object",
+        "description": "Variable creation data",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Variable name"
+          },
+          "value": {
+            "type": "string",
+            "description": "Variable value"
+          },
+          "masked": {
+            "type": "boolean",
+            "description": "Variable masking (hiding)"
+          }
+        }
+      },
+      "CreateQuickJobRequest": {
+        "type": "object",
+        "properties": {
+          "jobName": {
+            "type": "string"
+          },
+          "jobComponent": {
+            "$ref": "#/components/schemas/JobComponentRequest"
+          }
+        },
+        "required": [
+          "jobComponent",
+          "jobName"
+        ]
+      },
+      "JobComponentRequest": {
+        "type": "object",
+        "description": "Job component request data",
+        "properties": {
+          "componentUid": {
+            "type": "string",
+            "description": "Component UID. List of components for the account could be retrieved via account resource"
+          },
+          "variables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobComponentVariable"
+            }
+          }
+        }
+      },
+      "JobComponentVariable": {
+        "type": "object",
+        "description": "Job component variable data",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Variable name has to match one of component's variables"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value has to be convertible to the type specified in component variable"
+          }
+        }
+      },
+      "CreateQuickJobResponse": {
+        "type": "object",
+        "description": "Create Quick Job Response",
+        "properties": {
+          "jobComponents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobComponent"
+            }
+          },
+          "job": {
+            "$ref": "#/components/schemas/Job"
+          }
+        }
+      },
+      "Job": {
+        "type": "object",
+        "description": "Job data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "completed"
+            ]
+          }
+        }
+      },
+      "JobComponent": {
+        "type": "object",
+        "description": "Job component data",
+        "properties": {
+          "uid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "variables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobComponentVariable"
+            }
+          }
+        }
+      },
+      "AuthUserKey": {
+        "type": "object",
+        "description": "Authentication user keys",
+        "properties": {
+          "apiAccessKey": {
+            "type": "string"
+          },
+          "apiSecretKey": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          }
+        }
+      },
+      "SiteRequest": {
+        "type": "object",
+        "description": "A site's data request.",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "onDemand": {
+            "type": "boolean"
+          },
+          "splashtopAutoInstall": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "Variable Update Request": {
+        "type": "object",
+        "description": "Variable update data",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Variable name"
+          },
+          "value": {
+            "type": "string",
+            "description": "Variable value"
+          }
+        }
+      },
+      "GeneralSettings": {
+        "type": "object",
+        "description": "General site settings data",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "onDemand": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MailRecipient": {
+        "type": "object",
+        "description": "Mail recipient data",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "receives": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "receivesAlerts": {
+            "type": "boolean"
+          },
+          "receivesReports": {
+            "type": "boolean"
+          },
+          "receivesNewDevices": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SiteSettings": {
+        "type": "object",
+        "description": "Site settings data",
+        "properties": {
+          "generalSettings": {
+            "$ref": "#/components/schemas/GeneralSettings"
+          },
+          "proxySettings": {
+            "$ref": "#/components/schemas/ProxySettings"
+          },
+          "mailRecipients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MailRecipient"
+            }
+          }
+        }
+      },
+      "Warranty": {
+        "type": "object",
+        "description": "Device's warranty data",
+        "properties": {
+          "warrantyDate": {
+            "type": "string"
+          }
+        }
+      },
+      "Udf": {
+        "type": "object",
+        "description": "User defined fields",
+        "properties": {
+          "udf1": {
+            "type": "string"
+          },
+          "udf2": {
+            "type": "string"
+          },
+          "udf3": {
+            "type": "string"
+          },
+          "udf4": {
+            "type": "string"
+          },
+          "udf5": {
+            "type": "string"
+          },
+          "udf6": {
+            "type": "string"
+          },
+          "udf7": {
+            "type": "string"
+          },
+          "udf8": {
+            "type": "string"
+          },
+          "udf9": {
+            "type": "string"
+          },
+          "udf10": {
+            "type": "string"
+          },
+          "udf11": {
+            "type": "string"
+          },
+          "udf12": {
+            "type": "string"
+          },
+          "udf13": {
+            "type": "string"
+          },
+          "udf14": {
+            "type": "string"
+          },
+          "udf15": {
+            "type": "string"
+          },
+          "udf16": {
+            "type": "string"
+          },
+          "udf17": {
+            "type": "string"
+          },
+          "udf18": {
+            "type": "string"
+          },
+          "udf19": {
+            "type": "string"
+          },
+          "udf20": {
+            "type": "string"
+          },
+          "udf21": {
+            "type": "string"
+          },
+          "udf22": {
+            "type": "string"
+          },
+          "udf23": {
+            "type": "string"
+          },
+          "udf24": {
+            "type": "string"
+          },
+          "udf25": {
+            "type": "string"
+          },
+          "udf26": {
+            "type": "string"
+          },
+          "udf27": {
+            "type": "string"
+          },
+          "udf28": {
+            "type": "string"
+          },
+          "udf29": {
+            "type": "string"
+          },
+          "udf30": {
+            "type": "string"
+          }
+        }
+      },
+      "StatusResponse": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RateStatusResponse": {
+        "type": "object",
+        "properties": {
+          "slidingTimeWindowSizeSeconds": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountUid": {
+            "type": "string"
+          },
+          "accountCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountRateLimit": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "accountCutOffRatio": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "PaginationConfiguration": {
+        "type": "object",
+        "description": "Pagination configuration",
+        "properties": {
+          "max": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Default and maximum number of elements per AEM page (except alerts pagination)"
+          }
+        }
+      },
+      "PaginationData": {
+        "type": "object",
+        "description": "Pagination data",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "prevPageUrl": {
+            "type": "string"
+          },
+          "nextPageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "Variable": {
+        "type": "object",
+        "description": "Variable data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "masked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "VariablesPage": {
+        "type": "object",
+        "description": "Variables page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "variables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Variable"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "Filter": {
+        "type": "object",
+        "description": "Filter data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "rmm_default",
+              "custom",
+              "site"
+            ]
+          },
+          "dateCreate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "FiltersPage": {
+        "type": "object",
+        "description": "Filters page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          }
+        }
+      },
+      "Antivirus": {
+        "type": "object",
+        "description": "Device antivirus data",
+        "properties": {
+          "antivirusProduct": {
+            "type": "string"
+          },
+          "antivirusStatus": {
+            "type": "string",
+            "enum": [
+              "RunningAndUpToDate",
+              "RunningAndNotUpToDate",
+              "NotRunning",
+              "NotDetected"
+            ]
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "description": "Device data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "siteId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "siteUid": {
+            "type": "string"
+          },
+          "siteName": {
+            "type": "string"
+          },
+          "deviceType": {
+            "$ref": "#/components/schemas/DevicesType"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "intIpAddress": {
+            "type": "string"
+          },
+          "operatingSystem": {
+            "type": "string"
+          },
+          "lastLoggedInUser": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "cagVersion": {
+            "type": "string"
+          },
+          "displayVersion": {
+            "type": "string"
+          },
+          "extIpAddress": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "a64Bit": {
+            "type": "boolean"
+          },
+          "rebootRequired": {
+            "type": "boolean"
+          },
+          "online": {
+            "type": "boolean"
+          },
+          "suspended": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "lastSeen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastReboot": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastAuditDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "udf": {
+            "$ref": "#/components/schemas/Udf"
+          },
+          "snmpEnabled": {
+            "type": "boolean"
+          },
+          "deviceClass": {
+            "type": "string",
+            "enum": [
+              "device",
+              "printer",
+              "esxihost",
+              "rmmnetworkdevice",
+              "unknown"
+            ]
+          },
+          "portalUrl": {
+            "type": "string"
+          },
+          "warrantyDate": {
+            "type": "string"
+          },
+          "antivirus": {
+            "$ref": "#/components/schemas/Antivirus"
+          },
+          "patchManagement": {
+            "$ref": "#/components/schemas/PatchManagement"
+          },
+          "softwareStatus": {
+            "type": "string"
+          },
+          "webRemoteUrl": {
+            "type": "string"
+          },
+          "networkProbe": {
+            "type": "boolean"
+          },
+          "onboardedViaNetworkMonitor": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DevicesPage": {
+        "type": "object",
+        "description": "Devices page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Device"
+            }
+          }
+        }
+      },
+      "DevicesType": {
+        "type": "object",
+        "description": "Devices Type",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "PatchManagement": {
+        "type": "object",
+        "description": "Patch management data",
+        "properties": {
+          "patchStatus": {
+            "type": "string",
+            "enum": [
+              "NoPolicy",
+              "NoData",
+              "RebootRequired",
+              "InstallError",
+              "ApprovedPending",
+              "FullyPatched"
+            ]
+          },
+          "patchesApprovedPending": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "patchesNotApproved": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "patchesInstalled": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Device Network Interface": {
+        "type": "object",
+        "description": "Device Network Interface data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "siteId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "siteUid": {
+            "type": "string"
+          },
+          "siteName": {
+            "type": "string"
+          },
+          "deviceType": {
+            "$ref": "#/components/schemas/DevicesType"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "intIpAddress": {
+            "type": "string"
+          },
+          "extIpAddress": {
+            "type": "string"
+          },
+          "nics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NetworkInterface"
+            }
+          }
+        }
+      },
+      "DevicesNetworkInterfacePage": {
+        "type": "object",
+        "description": "Devices Network Interface page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Device Network Interface"
+            }
+          }
+        }
+      },
+      "NetworkInterface": {
+        "type": "object",
+        "description": "Network interface audit data",
+        "properties": {
+          "instance": {
+            "type": "string"
+          },
+          "ipv4": {
+            "type": "string"
+          },
+          "ipv6": {
+            "type": "string"
+          },
+          "macAddress": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "ActionContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "packageName": {
+                "type": "string"
+              },
+              "actionType": {
+                "type": "string",
+                "enum": [
+                  "INSTALLED",
+                  "UNINSTALLED",
+                  "VERSION_CHANGED"
+                ]
+              },
+              "prevVersion": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Alert": {
+        "type": "object",
+        "description": "Alert data",
+        "properties": {
+          "alertUid": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "Critical",
+              "High",
+              "Moderate",
+              "Low",
+              "Information",
+              "Unknown"
+            ]
+          },
+          "diagnostics": {
+            "type": "string"
+          },
+          "resolved": {
+            "type": "boolean"
+          },
+          "resolvedBy": {
+            "type": "string"
+          },
+          "resolvedOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "muted": {
+            "type": "boolean"
+          },
+          "ticketNumber": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "alertMonitorInfo": {
+            "$ref": "#/components/schemas/AlertMonitorInfo"
+          },
+          "alertContext": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ActionContext"
+              },
+              {
+                "$ref": "#/components/schemas/AntivirusContext"
+              },
+              {
+                "$ref": "#/components/schemas/BackupManagementContext"
+              },
+              {
+                "$ref": "#/components/schemas/CustomSNMPContext"
+              },
+              {
+                "$ref": "#/components/schemas/DiskHealthContext"
+              },
+              {
+                "$ref": "#/components/schemas/DiskUsageContext"
+              },
+              {
+                "$ref": "#/components/schemas/EndpointSecurityThreatContext"
+              },
+              {
+                "$ref": "#/components/schemas/EndpointSecurityWindowsDefenderContext"
+              },
+              {
+                "$ref": "#/components/schemas/EventLogContext"
+              },
+              {
+                "$ref": "#/components/schemas/FanContext"
+              },
+              {
+                "$ref": "#/components/schemas/FileSystemContext"
+              },
+              {
+                "$ref": "#/components/schemas/NetworkMonitorContext"
+              },
+              {
+                "$ref": "#/components/schemas/OnlineOfflineStatusContext"
+              },
+              {
+                "$ref": "#/components/schemas/PatchContext"
+              },
+              {
+                "$ref": "#/components/schemas/PingContext"
+              },
+              {
+                "$ref": "#/components/schemas/PrinterContext"
+              },
+              {
+                "$ref": "#/components/schemas/PsuContext"
+              },
+              {
+                "$ref": "#/components/schemas/RansomWareContext"
+              },
+              {
+                "$ref": "#/components/schemas/ResourceUsageContext"
+              },
+              {
+                "$ref": "#/components/schemas/SNMPProbeContext"
+              },
+              {
+                "$ref": "#/components/schemas/ScriptContext"
+              },
+              {
+                "$ref": "#/components/schemas/SecCenterContext"
+              },
+              {
+                "$ref": "#/components/schemas/SecurityManagementContext"
+              },
+              {
+                "$ref": "#/components/schemas/StatusContext"
+              },
+              {
+                "$ref": "#/components/schemas/TemperatureContext"
+              },
+              {
+                "$ref": "#/components/schemas/WindowsPerformanceContext"
+              },
+              {
+                "$ref": "#/components/schemas/WmiContext"
+              }
+            ]
+          },
+          "alertSourceInfo": {
+            "$ref": "#/components/schemas/AlertSourceInfo"
+          },
+          "responseActions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseAction"
+            }
+          },
+          "autoresolveMins": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AlertContext": {
+        "discriminator": {
+          "propertyName": "@class"
+        },
+        "properties": {
+          "@class": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@class"
+        ]
+      },
+      "AlertMonitorInfo": {
+        "type": "object",
+        "description": "Alert monitor information",
+        "properties": {
+          "sendsEmails": {
+            "type": "boolean"
+          },
+          "createsTicket": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AlertSourceInfo": {
+        "type": "object",
+        "description": "Alert source information data",
+        "properties": {
+          "deviceUid": {
+            "type": "string"
+          },
+          "deviceName": {
+            "type": "string"
+          },
+          "siteUid": {
+            "type": "string"
+          },
+          "siteName": {
+            "type": "string"
+          }
+        }
+      },
+      "AlertsPage": {
+        "type": "object",
+        "description": "Alerts page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "alerts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alert"
+            }
+          }
+        }
+      },
+      "AntivirusContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "NOTDETECTED",
+                  "NOTRUNNING",
+                  "RUNNINGNOTUPTODATE"
+                ]
+              },
+              "productName": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "BackupManagementContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "errorMessage": {
+                "type": "string"
+              },
+              "timeout": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "CustomSNMPContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "displayName": {
+                "type": "string"
+              },
+              "currentValue": {
+                "type": "string"
+              },
+              "monitorInstance": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "DiskHealthContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CPU",
+                  "MEMORY",
+                  "TEMPERATURE",
+                  "FAN",
+                  "DISKHEALTH",
+                  "PSU",
+                  "SNMP_THROUGHPUT"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "DiskUsageContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "diskName": {
+                "type": "string"
+              },
+              "totalVolume": {
+                "type": "number",
+                "format": "float"
+              },
+              "freeSpace": {
+                "type": "number",
+                "format": "float"
+              },
+              "unitOfMeasure": {
+                "type": "string",
+                "enum": [
+                  "PERCENT",
+                  "USED",
+                  "FREE"
+                ]
+              },
+              "diskNameDesignation": {
+                "type": "string",
+                "enum": [
+                  "ANY_VOLUME",
+                  "ALL_VOLUMES",
+                  "SINGLE_VOLUME"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "EndpointSecurityThreatContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "esAlertId": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "EndpointSecurityWindowsDefenderContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "esAlertId": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "EventLogContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "logName": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "triggerCount": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "lastTriggered": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "causedSuspension": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      },
+      "FanContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CPU",
+                  "MEMORY",
+                  "TEMPERATURE",
+                  "FAN",
+                  "DISKHEALTH",
+                  "PSU",
+                  "SNMP_THROUGHPUT"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "FileSystemContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sample": {
+                "type": "number",
+                "format": "float"
+              },
+              "threshold": {
+                "type": "number",
+                "format": "float"
+              },
+              "path": {
+                "type": "string"
+              },
+              "objectType": {
+                "type": "string",
+                "enum": [
+                  "FILE",
+                  "DIRECTORY"
+                ]
+              },
+              "condition": {
+                "type": "string",
+                "enum": [
+                  "ABOVE_THRESHOLD",
+                  "BELOW_THRESHOLD",
+                  "REMOVED",
+                  "CREATED"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "NetworkMonitorContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "OnlineOfflineStatusContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ONLINE",
+                  "OFFLINE"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PatchContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "patchUid": {
+                "type": "string"
+              },
+              "policyUid": {
+                "type": "string"
+              },
+              "result": {
+                "type": "string"
+              },
+              "info": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "PingContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "instanceName": {
+                "type": "string"
+              },
+              "roundtripTime": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "PrinterContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ipAddress": {
+                "type": "string"
+              },
+              "macAddress": {
+                "type": "string"
+              },
+              "markerSupplyIndex": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "currentLevel": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "PsuContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CPU",
+                  "MEMORY",
+                  "TEMPERATURE",
+                  "FAN",
+                  "DISKHEALTH",
+                  "PSU",
+                  "SNMP_THROUGHPUT"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "RansomWareContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "confidenceFactor": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "affectedDirectories": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "watchPaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rwextension": {
+                "type": "string"
+              },
+              "metaAlertTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "alertTime": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "ResourceUsageContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "processName": {
+                "type": "string"
+              },
+              "sample": {
+                "type": "number",
+                "format": "float"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CPU",
+                  "MEMORY",
+                  "TEMPERATURE",
+                  "FAN",
+                  "DISKHEALTH",
+                  "PSU",
+                  "SNMP_THROUGHPUT"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ResponseAction": {
+        "type": "object",
+        "properties": {
+          "actionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actionType": {
+            "type": "string",
+            "enum": [
+              "EMAIL_SENT",
+              "EMAIL_SEND_ERROR",
+              "TICKET_PENDING",
+              "TICKET_CREATED",
+              "TICKET_CREATION_ERROR",
+              "TICKET_CLOSED_CALL",
+              "COMPONENT",
+              "WEBHOOK_EXECUTED",
+              "WEBHOOK_EXECUTION_ERROR"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "actionReference": {
+            "type": "string"
+          },
+          "actionReferenceInt": {
+            "type": "string"
+          }
+        }
+      },
+      "SNMPProbeContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ipAddress": {
+                "type": "string"
+              },
+              "OID": {
+                "type": "string"
+              },
+              "ruleName": {
+                "type": "string"
+              },
+              "responseValue": {
+                "type": "string"
+              },
+              "deviceName": {
+                "type": "string"
+              },
+              "monitorName": {
+                "type": "string"
+              },
+              "oid": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ScriptContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "samples": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SecCenterContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "productName": {
+                "type": "string"
+              },
+              "alertType": {
+                "type": "string",
+                "enum": [
+                  "DISABLED",
+                  "NOT_UPTODATE"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "SecurityManagementContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "productName": {
+                "type": "string"
+              },
+              "infoTime": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "virusName": {
+                "type": "string"
+              },
+              "infectedFiles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "productNotUpdatedForDays": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "systemRemainsInfectedForHours": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "expiryLicenseForDays": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "StatusContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "processName": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "STOPPED",
+                  "STARTPENDING",
+                  "STOPPENDING",
+                  "RUNNING",
+                  "CONTINUEPENDING",
+                  "PAUSEPENDING",
+                  "PAUSED"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "TemperatureContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "degree": {
+                "type": "number",
+                "format": "float"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CPU",
+                  "MEMORY",
+                  "TEMPERATURE",
+                  "FAN",
+                  "DISKHEALTH",
+                  "PSU",
+                  "SNMP_THROUGHPUT"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "WindowsPerformanceContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          }
+        ]
+      },
+      "WmiContext": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AlertContext"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "JobComponentResult": {
+        "type": "object",
+        "description": "Job component result data",
+        "properties": {
+          "componentUid": {
+            "type": "string"
+          },
+          "componentName": {
+            "type": "string"
+          },
+          "componentStatus": {
+            "type": "string",
+            "enum": [
+              "Success",
+              "Failure"
+            ]
+          },
+          "numberOfWarnings": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasStdOut": {
+            "type": "boolean"
+          },
+          "hasStdErr": {
+            "type": "boolean"
+          }
+        }
+      },
+      "JobResults": {
+        "type": "object",
+        "description": "Job results data",
+        "properties": {
+          "jobUid": {
+            "type": "string"
+          },
+          "deviceUid": {
+            "type": "string"
+          },
+          "ranOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jobDeploymentStatus": {
+            "type": "string",
+            "enum": [
+              "Expired",
+              "Pending",
+              "Running",
+              "Success",
+              "Warning",
+              "Retired",
+              "Failure"
+            ]
+          },
+          "componentResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobComponentResult"
+            }
+          }
+        }
+      },
+      "JobStdData": {
+        "type": "object",
+        "description": "Job Std data",
+        "properties": {
+          "componentUid": {
+            "type": "string"
+          },
+          "componentName": {
+            "type": "string"
+          },
+          "stdData": {
+            "type": "string"
+          }
+        }
+      },
+      "JobComponentsPage": {
+        "type": "object",
+        "description": "Job components page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "jobComponents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobComponent"
+            }
+          }
+        }
+      },
+      "Printer": {
+        "type": "object",
+        "description": "Printer audit data",
+        "properties": {
+          "printedPageCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PrinterAudit": {
+        "type": "object",
+        "description": "Printer audit data",
+        "properties": {
+          "portalUrl": {
+            "type": "string"
+          },
+          "snmpInfo": {
+            "$ref": "#/components/schemas/SnmpInfo"
+          },
+          "printerMarkerSupplies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrinterMarkerSupply"
+            }
+          },
+          "printer": {
+            "$ref": "#/components/schemas/Printer"
+          },
+          "systemInfo": {
+            "$ref": "#/components/schemas/PrinterSystemInfo"
+          },
+          "nics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NetworkInterface"
+            }
+          }
+        }
+      },
+      "PrinterMarkerSupply": {
+        "type": "object",
+        "description": "Printer marker supply audit data",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "maxCapacity": {
+            "type": "string"
+          },
+          "suppliesLevel": {
+            "type": "string"
+          }
+        }
+      },
+      "PrinterSystemInfo": {
+        "type": "object",
+        "description": "Printer system info audit data",
+        "properties": {
+          "manufacturer": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          }
+        }
+      },
+      "SnmpInfo": {
+        "type": "object",
+        "description": "SNMP info audit data",
+        "properties": {
+          "snmpName": {
+            "type": "string"
+          },
+          "snmpContact": {
+            "type": "string"
+          },
+          "snmpDescription": {
+            "type": "string"
+          },
+          "snmpLocation": {
+            "type": "string"
+          },
+          "snmpUptime": {
+            "type": "string"
+          },
+          "nicManufacturer": {
+            "type": "string"
+          },
+          "objectId": {
+            "type": "string"
+          },
+          "snmpSerial": {
+            "type": "string"
+          }
+        }
+      },
+      "ESXiDataExtent": {
+        "type": "object",
+        "description": "Data extent audit data",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mediaType": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ESXiDatastore": {
+        "type": "object",
+        "description": "ESXi datastore audit data",
+        "properties": {
+          "datastoreName": {
+            "type": "string"
+          },
+          "subscriptionPercent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "freeSpace": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fileSystem": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "dataExtents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ESXiDataExtent"
+            }
+          }
+        }
+      },
+      "ESXiHostAudit": {
+        "type": "object",
+        "description": "ESXi Host audit data",
+        "properties": {
+          "portalUrl": {
+            "type": "string"
+          },
+          "systemInfo": {
+            "$ref": "#/components/schemas/ESXiSystemInfo"
+          },
+          "guests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Guest"
+            }
+          },
+          "processors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ESXiProcessor"
+            }
+          },
+          "nics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ESXiNic"
+            }
+          },
+          "physicalMemory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhysicalMemory"
+            }
+          },
+          "datastores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ESXiDatastore"
+            }
+          }
+        }
+      },
+      "ESXiNic": {
+        "type": "object",
+        "description": "ESXi newtwork adapter audit data",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ipv4": {
+            "type": "string"
+          },
+          "ipv6": {
+            "type": "string"
+          },
+          "macAddress": {
+            "type": "string"
+          },
+          "speed": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "ESXiProcessor": {
+        "type": "object",
+        "description": "ESXi processor audit data",
+        "properties": {
+          "frequency": {
+            "type": "number",
+            "format": "double"
+          },
+          "name": {
+            "type": "string"
+          },
+          "numberOfCores": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ESXiSystemInfo": {
+        "type": "object",
+        "description": "ESXi host system info audit data",
+        "properties": {
+          "manufacturer": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "numberOfSnapshots": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serviceTag": {
+            "type": "string"
+          }
+        }
+      },
+      "Guest": {
+        "type": "object",
+        "description": "Guest audit data",
+        "properties": {
+          "guestName": {
+            "type": "string"
+          },
+          "processorSpeedTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memorySizeTotal": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfSnapshots": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "datastores": {
+            "type": "string"
+          }
+        }
+      },
+      "PhysicalMemory": {
+        "type": "object",
+        "description": "Physical memory audit data",
+        "properties": {
+          "module": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string"
+          },
+          "speed": {
+            "type": "string"
+          },
+          "serialNumber": {
+            "type": "string"
+          },
+          "partNumber": {
+            "type": "string"
+          },
+          "bank": {
+            "type": "string"
+          }
+        }
+      },
+      "AttachedDevice": {
+        "type": "object",
+        "description": "Attached device audit data",
+        "properties": {
+          "deviceName": {
+            "type": "string"
+          },
+          "deviceType": {
+            "type": "string"
+          },
+          "driverFile": {
+            "type": "string"
+          },
+          "driverFileLastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "driverManufacturer": {
+            "type": "string"
+          },
+          "driverName": {
+            "type": "string"
+          },
+          "driverVersion": {
+            "type": "string"
+          },
+          "portName": {
+            "type": "string"
+          }
+        }
+      },
+      "BaseBoard": {
+        "type": "object",
+        "description": "Baseboard audit data",
+        "properties": {
+          "manufacturer": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          }
+        }
+      },
+      "Bios": {
+        "type": "object",
+        "description": "Bios audit data",
+        "properties": {
+          "instance": {
+            "type": "string"
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "serialNumber": {
+            "type": "string"
+          },
+          "smBiosVersion": {
+            "type": "string"
+          }
+        }
+      },
+      "DeviceAudit": {
+        "type": "object",
+        "description": "Device audit data",
+        "properties": {
+          "portalUrl": {
+            "type": "string"
+          },
+          "webRemoteUrl": {
+            "type": "string"
+          },
+          "systemInfo": {
+            "$ref": "#/components/schemas/SystemInfo"
+          },
+          "nics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NetworkInterface"
+            }
+          },
+          "bios": {
+            "$ref": "#/components/schemas/Bios"
+          },
+          "baseBoard": {
+            "$ref": "#/components/schemas/BaseBoard"
+          },
+          "displays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Display"
+            }
+          },
+          "logicalDisks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogicalDisk"
+            }
+          },
+          "mobileInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileInfo"
+            }
+          },
+          "processors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Processor"
+            }
+          },
+          "videoBoards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoBoard"
+            }
+          },
+          "attachedDevices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachedDevice"
+            }
+          },
+          "snmpInfo": {
+            "$ref": "#/components/schemas/SnmpInfo"
+          },
+          "physicalMemory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhysicalMemory"
+            }
+          }
+        }
+      },
+      "Display": {
+        "type": "object",
+        "description": "Display audit data",
+        "properties": {
+          "instance": {
+            "type": "string"
+          },
+          "screenHeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "screenWidth": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "LogicalDisk": {
+        "type": "object",
+        "description": "Logical disk audit data",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "diskIdentifier": {
+            "type": "string"
+          },
+          "freespace": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MobileInfo": {
+        "type": "object",
+        "description": "Mobile info audit data",
+        "properties": {
+          "iccid": {
+            "type": "string"
+          },
+          "imei": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "operator": {
+            "type": "string"
+          }
+        }
+      },
+      "Processor": {
+        "type": "object",
+        "description": "Processor audit data",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SystemInfo": {
+        "type": "object",
+        "description": "System info audit data",
+        "properties": {
+          "manufacturer": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "totalPhysicalMemory": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "dotNetVersion": {
+            "type": "string"
+          },
+          "totalCpuCores": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "VideoBoard": {
+        "type": "object",
+        "description": "Videoboard audit data",
+        "properties": {
+          "displayAdapter": {
+            "type": "string"
+          }
+        }
+      },
+      "Software": {
+        "type": "object",
+        "description": "Software audit data",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "SoftwarePage": {
+        "type": "object",
+        "description": "Software page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "software": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Software"
+            }
+          }
+        }
+      },
+      "ActivityLog": {
+        "type": "object",
+        "description": "Activity log data",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "entity": {
+            "type": "string",
+            "enum": [
+              "DEVICE",
+              "USER"
+            ]
+          },
+          "category": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "date": {
+            "type": "number",
+            "format": "double",
+            "description": "Activity Log creation unix timestamp",
+            "example": 1689072497.714,
+            "pattern": "seconds.nanoseconds"
+          },
+          "site": {
+            "$ref": "#/components/schemas/SiteBasicDto"
+          },
+          "deviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "details": {
+            "type": "string"
+          },
+          "hasStdOut": {
+            "type": "boolean"
+          },
+          "hasStdErr": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ActivityLogsPage": {
+        "type": "object",
+        "description": "Activity logs page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityLog"
+            }
+          },
+          "error": {
+            "type": "string",
+            "description": "Shows error information when request fails at the database layer"
+          }
+        }
+      },
+      "SiteBasicDto": {
+        "type": "object",
+        "description": "Site information",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDto": {
+        "type": "object",
+        "description": "User information",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      },
+      "Account": {
+        "type": "object",
+        "description": "Account data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "descriptor": {
+            "$ref": "#/components/schemas/Account Descriptor"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "devicesStatus": {
+            "$ref": "#/components/schemas/AccountDevicesStatus"
+          }
+        }
+      },
+      "Account Descriptor": {
+        "type": "object",
+        "description": "Account description data",
+        "properties": {
+          "bilingEmail": {
+            "type": "string"
+          },
+          "deviceLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeZone": {
+            "type": "string"
+          }
+        }
+      },
+      "AccountDevicesStatus": {
+        "type": "object",
+        "description": "Account Devices Status",
+        "properties": {
+          "numberOfDevices": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfOnlineDevices": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfOfflineDevices": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfOnDemandDevices": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numberOfManagedDevices": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AuthUser": {
+        "type": "object",
+        "description": "Authentication user data",
+        "properties": {
+          "lastName": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "telephone": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastAccess": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UsersPage": {
+        "type": "object",
+        "description": "Users page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthUser"
+            }
+          }
+        }
+      },
+      "SitesPage": {
+        "type": "object",
+        "description": "Sites page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Site"
+            }
+          }
+        }
+      },
+      "DnetSiteMappingsDto": {
+        "type": "object",
+        "description": "Dnet site mappings data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uid": {
+            "type": "string",
+            "description": "Unique alphanumeric UID of this site"
+          },
+          "accountUid": {
+            "type": "string",
+            "description": "Unique alphanumeric UID of the account to which this site belongs"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dattoNetworkingNetworkIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "portalUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "DnetSiteMappingsPage": {
+        "type": "object",
+        "description": "Dnet site mappings page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "dnetSiteMappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DnetSiteMappingsDto"
+            }
+          }
+        }
+      },
+      "Component": {
+        "type": "object",
+        "description": "Component data",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "credentialsRequired": {
+            "type": "boolean"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "categoryCode": {
+            "type": "string"
+          },
+          "variables": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComponentVariable"
+            }
+          }
+        }
+      },
+      "ComponentVariable": {
+        "type": "object",
+        "description": "Component's variables data",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "defaultVal": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "variablesIdx": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ComponentsPage": {
+        "type": "object",
+        "description": "Components page",
+        "properties": {
+          "pageDetails": {
+            "$ref": "#/components/schemas/PaginationData"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Component"
+            }
+          }
+        }
+      }
+    }
+  }
+}

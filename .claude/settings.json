@@ -1,0 +1,14 @@
+{
+  "project": {
+    "name": "datto-rmm",
+    "type": "typescript-monorepo",
+    "packageManager": "pnpm",
+    "buildTool": "turborepo"
+  },
+  "preferences": {
+    "codeStyle": "typescript-strict",
+    "testFramework": "vitest",
+    "formatting": "prettier",
+    "linting": "eslint"
+  }
+}
