@@ -130,6 +130,6 @@ pnpm build
 
 ## Next Steps
 
-- Read the [TypeScript Client](/api/typescript-client/) documentation
-- Check the [Project Structure](/getting-started/project-structure/) guide
-- Explore the [API Reference](/api/)
+- Read the [TypeScript Client](../../api/typescript-client/) documentation
+- Check the [Project Structure](../project-structure/) guide
+- Explore the [API Reference](../../api/)

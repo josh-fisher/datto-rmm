@@ -185,5 +185,5 @@ Progenitor doesn't yet support OpenAPI 3.1.0. The crate will compile but without
 ## Getting Help
 
 - Check existing documentation
-- Review the [Architecture](/architecture/) section
+- Review the [Architecture](../architecture/) section
 - Open an issue on GitHub

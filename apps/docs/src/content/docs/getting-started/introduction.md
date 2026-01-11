@@ -18,9 +18,9 @@ This repository contains:
 
 | Package | Description | Status |
 |---------|-------------|--------|
-| [datto-rmm-mcp-server](/api/mcp-server/) | MCP server for AI assistants | Stable |
-| [datto-rmm-api](/api/typescript-client/) | TypeScript API client | Stable |
-| [datto-api](/api/rust-client/) | Rust API client | Stable |
+| [datto-rmm-mcp-server](../../api/mcp-server/) | MCP server for AI assistants | Stable |
+| [datto-rmm-api](../../api/typescript-client/) | TypeScript API client | Stable |
+| [datto-api](../../api/rust-client/) | Rust API client | Stable |
 
 ## Key Features
 
@@ -61,11 +61,11 @@ const { data, error } = await client.GET('/v2/account/devices');
 
 ## Getting Started
 
-1. **[Quick Start](/getting-started/quick-start/)** - Install and set up the packages
-2. **[Project Structure](/getting-started/project-structure/)** - Understand the codebase
-3. **[MCP Server](/api/mcp-server/)** - AI assistant integration guide
-4. **[TypeScript Client](/api/typescript-client/)** - Full TypeScript usage guide
-5. **[Rust Client](/api/rust-client/)** - Rust client documentation
+1. **[Quick Start](../quick-start/)** - Install and set up the packages
+2. **[Project Structure](../project-structure/)** - Understand the codebase
+3. **[MCP Server](../../api/mcp-server/)** - AI assistant integration guide
+4. **[TypeScript Client](../../api/typescript-client/)** - Full TypeScript usage guide
+5. **[Rust Client](../../api/rust-client/)** - Rust client documentation
 
 ## Datto RMM API
 

@@ -150,6 +150,6 @@ pub enum Error {
 
 ## Related Documentation
 
-- [TypeScript Client](/api/typescript-client/)
-- [Rust Client](/api/rust-client/)
-- [Development Guide](/development/)
+- [TypeScript Client](../api/typescript-client/)
+- [Rust Client](../api/rust-client/)
+- [Development Guide](../development/)
