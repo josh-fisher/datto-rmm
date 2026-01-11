@@ -6,6 +6,9 @@ use std::io::Write;
 use std::path::Path;
 
 fn main() {
+    // Declare the custom cfg flag for cargo check-cfg
+    println!("cargo::rustc-check-cfg=cfg(has_generated_api)");
+
     let spec_path = Path::new("../../specs/datto-rmm-openapi.json");
 
     // Rerun if spec changes
@@ -36,6 +39,10 @@ fn main() {
             return;
         }
     };
+
+    // Downgrade OpenAPI 3.1.0 to 3.0.3 for progenitor compatibility
+    // progenitor doesn't support OpenAPI 3.1.0 yet
+    let spec_content = spec_content.replace("\"openapi\": \"3.1.0\"", "\"openapi\": \"3.0.3\"");
 
     // Parse as OpenAPI spec
     let spec: openapiv3::OpenAPI = match serde_json::from_str(&spec_content) {

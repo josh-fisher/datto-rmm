@@ -2,20 +2,36 @@
   "name": "@datto-rmm/mcp-server",
   "version": "0.1.0",
   "description": "MCP server for Datto RMM - enables AI assistants to interact with Datto RMM",
+  "author": "josh-fisher",
+  "license": "MIT",
+  "homepage": "https://github.com/josh-fisher/datto-rmm#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josh-fisher/datto-rmm.git",
+    "directory": "apps/mcp-server"
+  },
+  "bugs": {
+    "url": "https://github.com/josh-fisher/datto-rmm/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
     "datto-rmm-mcp": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@datto-rmm/api": "workspace:*",
@@ -32,12 +48,7 @@
     "mcp",
     "model-context-protocol",
     "ai",
-    "claude"
-  ],
-  "author": "",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/josh-fisher/datto-rmm"
-  }
+    "claude",
+    "assistant"
+  ]
 }
