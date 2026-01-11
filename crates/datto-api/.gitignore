@@ -4,6 +4,9 @@ target/
 # Cargo.lock is gitignored at root level for library crates
 # (binary crates should commit Cargo.lock)
 
+# OpenAPI spec copied from monorepo during build (for crates.io publish)
+openapi.json
+
 # Environment variables
 .env
 .env.local
