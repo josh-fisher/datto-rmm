@@ -29,7 +29,7 @@ This guide will help you install and start using the Datto RMM API clients.
 Install from the monorepo or add as a dependency:
 
 ```bash
-pnpm add @datto-rmm/api
+pnpm add datto-rmm-api
 ```
 
 ### Rust Client
@@ -52,7 +52,7 @@ tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 ## TypeScript Usage
 
 ```typescript
-import { createDattoClient, Platform } from '@datto-rmm/api';
+import { createDattoClient, Platform } from 'datto-rmm-api';
 
 // Create a client
 const client = createDattoClient({

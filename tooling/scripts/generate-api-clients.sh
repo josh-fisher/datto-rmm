@@ -25,7 +25,7 @@ fi
 # Generate TypeScript client
 echo "Generating TypeScript client..."
 cd "$WORKSPACE_ROOT"
-pnpm --filter @datto-rmm/api generate
+pnpm --filter datto-rmm-api generate
 
 # Generate Rust client (if cargo is available)
 if command -v cargo &> /dev/null; then

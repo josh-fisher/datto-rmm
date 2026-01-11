@@ -81,7 +81,7 @@ The platform is selected at client creation time and determines:
 
 ## Package Architecture
 
-### TypeScript (`@datto-rmm/api`)
+### TypeScript (`datto-rmm-api`)
 
 ```
 ┌─────────────────────────────────────────────────┐

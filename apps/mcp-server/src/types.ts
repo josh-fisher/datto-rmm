@@ -6,7 +6,7 @@
  */
 
 // Re-export component schemas from the generated types
-import type { components } from '@datto-rmm/api';
+import type { components } from 'datto-rmm-api';
 
 // Schema types - using exact names from the OpenAPI spec
 export type Account = components['schemas']['Account'];

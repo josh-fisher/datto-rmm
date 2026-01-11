@@ -9,12 +9,12 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "@datto-rmm/api#build": {
+    "datto-rmm-api#build": {
       "dependsOn": ["generate"],
       "outputs": ["dist/**"]
     },
-    "@datto-rmm/mcp-server#build": {
-      "dependsOn": ["@datto-rmm/api#build"],
+    "datto-rmm-mcp-server#build": {
+      "dependsOn": ["datto-rmm-api#build"],
       "outputs": ["dist/**"]
     },
     "dev": {

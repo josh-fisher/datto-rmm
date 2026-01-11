@@ -1,4 +1,4 @@
-import type { DattoClient } from '@datto-rmm/api';
+import type { DattoClient } from 'datto-rmm-api';
 import { formatError } from '../utils/formatting.js';
 import { handleResponse } from '../utils/response.js';
 import type * as T from '../types.js';

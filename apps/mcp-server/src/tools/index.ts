@@ -1,4 +1,4 @@
-import type { DattoClient } from '@datto-rmm/api';
+import type { DattoClient } from 'datto-rmm-api';
 
 // Tool implementations
 import * as accountTools from './account.js';

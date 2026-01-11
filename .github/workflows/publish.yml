@@ -64,31 +64,31 @@ jobs:
         run: pnpm build
 
       - name: Test
-        run: pnpm --filter @datto-rmm/api test
+        run: pnpm --filter datto-rmm-api test
 
-      # Publish @datto-rmm/api first (dependency)
-      - name: Publish @datto-rmm/api to npm (dry run)
+      # Publish datto-rmm-api first (dependency)
+      - name: Publish datto-rmm-api to npm (dry run)
         if: ${{ inputs.dry_run }}
-        run: pnpm --filter @datto-rmm/api publish --dry-run --no-git-checks
+        run: pnpm --filter datto-rmm-api publish --dry-run --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @datto-rmm/api to npm
+      - name: Publish datto-rmm-api to npm
         if: ${{ !inputs.dry_run }}
-        run: pnpm --filter @datto-rmm/api publish --access public --no-git-checks
+        run: pnpm --filter datto-rmm-api publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Publish @datto-rmm/mcp-server (depends on @datto-rmm/api)
-      - name: Publish @datto-rmm/mcp-server to npm (dry run)
+      # Publish datto-rmm-mcp-server (depends on datto-rmm-api)
+      - name: Publish datto-rmm-mcp-server to npm (dry run)
         if: ${{ inputs.dry_run }}
-        run: pnpm --filter @datto-rmm/mcp-server publish --dry-run --no-git-checks
+        run: pnpm --filter datto-rmm-mcp-server publish --dry-run --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @datto-rmm/mcp-server to npm
+      - name: Publish datto-rmm-mcp-server to npm
         if: ${{ !inputs.dry_run }}
-        run: pnpm --filter @datto-rmm/mcp-server publish --access public --no-git-checks
+        run: pnpm --filter datto-rmm-mcp-server publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

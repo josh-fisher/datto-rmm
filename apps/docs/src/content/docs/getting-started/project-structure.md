@@ -13,7 +13,7 @@ datto-rmm/
 │   ├── mcp-server/        # MCP server for AI assistants
 │   └── docs/              # This documentation site (Starlight)
 ├── packages/              # TypeScript packages
-│   └── api/               # @datto-rmm/api - TypeScript client
+│   └── api/               # datto-rmm-api - TypeScript client
 ├── crates/                # Rust packages
 │   └── datto-api/         # Rust API client
 ├── specs/                 # OpenAPI specifications
@@ -129,7 +129,7 @@ apps/docs/
 
 | Type | Convention | Example |
 |------|------------|---------|
-| TypeScript packages | `@datto-rmm/name` | `@datto-rmm/api` |
+| TypeScript packages | `datto-rmm-name` | `datto-rmm-api` |
 | Rust crates | `datto-name` | `datto-api` |
 | Files | `kebab-case` | `oauth-middleware.ts` |
 
@@ -180,4 +180,4 @@ generate → build → test
             lint
 ```
 
-The `@datto-rmm/api#build` task depends on `generate` to ensure types are generated before building. The `@datto-rmm/mcp-server#build` task depends on `@datto-rmm/api#build` since it uses the API client.
+The `datto-rmm-api#build` task depends on `generate` to ensure types are generated before building. The `datto-rmm-mcp-server#build` task depends on `datto-rmm-api#build` since it uses the API client.

@@ -15,7 +15,7 @@ This section contains documentation for all Datto RMM tooling packages.
 
 ## MCP Server
 
-The MCP server (`@datto-rmm/mcp-server`) enables AI assistants like Claude to interact with Datto RMM through natural language. It exposes 39+ tools for managing:
+The MCP server (`datto-rmm-mcp-server`) enables AI assistants like Claude to interact with Datto RMM through natural language. It exposes 39+ tools for managing:
 
 - Devices, sites, and alerts
 - Jobs and components

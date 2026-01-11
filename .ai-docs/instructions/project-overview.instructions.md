@@ -22,7 +22,7 @@ tooling/        # Shared configs, scripts (tsconfig, eslint, etc.)
 Model Context Protocol server that exposes Datto RMM functionality to AI assistants.
 
 - **Location**: `apps/mcp-server/`
-- **Package**: `@datto-rmm/mcp-server`
+- **Package**: `datto-rmm-mcp-server`
 - **Features**: 39+ tools for managing devices, sites, alerts, jobs, and more
 - **Usage**: Configure in Claude Desktop or other MCP-compatible clients
 
@@ -43,7 +43,7 @@ All new features MUST include documentation. See `documentation.instructions.md`
 Fully typed TypeScript client for the Datto RMM API.
 
 - **Location**: `packages/api/`
-- **Package**: `@datto-rmm/api`
+- **Package**: `datto-rmm-api`
 - **Features**: Auto-generated types from OpenAPI, OAuth 2.0, all 6 platforms
 
 ### Rust API Client (`crates/datto-api`)

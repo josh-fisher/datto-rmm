@@ -1,9 +1,9 @@
 ---
 title: MCP Server
-description: Using the @datto-rmm/mcp-server for AI assistant integration
+description: Using the datto-rmm-mcp-server for AI assistant integration
 ---
 
-The `@datto-rmm/mcp-server` package provides a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that exposes Datto RMM functionality to AI assistants like Claude.
+The `datto-rmm-mcp-server` package provides a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that exposes Datto RMM functionality to AI assistants like Claude.
 
 ## Overview
 
@@ -12,7 +12,7 @@ MCP is a protocol that allows AI assistants to interact with external tools and 
 ## Installation
 
 ```bash
-pnpm add @datto-rmm/mcp-server
+pnpm add datto-rmm-mcp-server
 ```
 
 ## Configuration

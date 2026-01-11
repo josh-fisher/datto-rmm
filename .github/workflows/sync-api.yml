@@ -111,15 +111,15 @@ jobs:
 
       - name: Generate TypeScript client
         if: steps.check.outputs.has_changes == 'true'
-        run: pnpm --filter @datto-rmm/api generate
+        run: pnpm --filter datto-rmm-api generate
 
       - name: Build TypeScript client
         if: steps.check.outputs.has_changes == 'true'
-        run: pnpm --filter @datto-rmm/api build
+        run: pnpm --filter datto-rmm-api build
 
       - name: Run TypeScript tests
         if: steps.check.outputs.has_changes == 'true'
-        run: pnpm --filter @datto-rmm/api test
+        run: pnpm --filter datto-rmm-api test
 
       - name: Build Rust client
         if: steps.check.outputs.has_changes == 'true'

@@ -7,7 +7,7 @@ import {
   ListResourceTemplatesRequestSchema,
   ReadResourceRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { createDattoClient, type DattoClient } from '@datto-rmm/api';
+import { createDattoClient, type DattoClient } from 'datto-rmm-api';
 import { type ServerConfig } from './config.js';
 import { tools, getTool } from './tools/index.js';
 import { resources, resourceTemplates, readResource } from './resources/index.js';

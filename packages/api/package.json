@@ -1,5 +1,5 @@
 {
-  "name": "@datto-rmm/api",
+  "name": "datto-rmm-api",
   "version": "0.1.0",
   "description": "Auto-generated TypeScript client for the Datto RMM API",
   "author": "josh-fisher",

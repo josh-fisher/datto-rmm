@@ -5,7 +5,7 @@
   </p>
   <p align="center">
     <a href="https://github.com/josh-fisher/datto-rmm/actions"><img src="https://github.com/josh-fisher/datto-rmm/workflows/CI/badge.svg" alt="CI Status"></a>
-    <a href="https://www.npmjs.com/package/@datto-rmm/api"><img src="https://img.shields.io/npm/v/@datto-rmm/api.svg" alt="npm version"></a>
+    <a href="https://www.npmjs.com/package/datto-rmm-api"><img src="https://img.shields.io/npm/v/datto-rmm-api.svg" alt="npm version"></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.7-blue.svg" alt="TypeScript"></a>
     <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-2021-orange.svg" alt="Rust"></a>
     <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
@@ -28,8 +28,8 @@ A monorepo providing everything you need to work with [Datto RMM](https://www.da
 
 | Package | Description | Status |
 |---------|-------------|--------|
-| [`@datto-rmm/mcp-server`](./apps/mcp-server) | MCP server for AI assistant integration | Stable |
-| [`@datto-rmm/api`](./packages/api) | TypeScript client with auto-generated types | Stable |
+| [`datto-rmm-mcp-server`](./apps/mcp-server) | MCP server for AI assistant integration | Stable |
+| [`datto-rmm-api`](./packages/api) | TypeScript client with auto-generated types | Stable |
 | [`datto-api`](./crates/datto-api) | Rust client with OAuth support | Stable |
 
 ## Quick Start
@@ -64,11 +64,11 @@ See the [MCP Server documentation](./apps/mcp-server/README.md) for the full lis
 ### TypeScript
 
 ```bash
-pnpm add @datto-rmm/api
+pnpm add datto-rmm-api
 ```
 
 ```typescript
-import { createDattoClient, Platform } from '@datto-rmm/api';
+import { createDattoClient, Platform } from 'datto-rmm-api';
 
 const client = createDattoClient({
   platform: Platform.MERLOT,
@@ -170,10 +170,10 @@ pnpm build
 ```
 datto-rmm/
 ├── apps/
-│   ├── mcp-server/      # MCP server for AI assistants (@datto-rmm/mcp-server)
+│   ├── mcp-server/      # MCP server for AI assistants (datto-rmm-mcp-server)
 │   └── docs/            # Documentation site (Starlight)
 ├── packages/
-│   └── api/             # TypeScript client (@datto-rmm/api)
+│   └── api/             # TypeScript client (datto-rmm-api)
 ├── crates/
 │   └── datto-api/       # Rust client
 ├── specs/               # Cached OpenAPI specification

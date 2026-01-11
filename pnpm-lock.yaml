@@ -46,12 +46,12 @@ importers:
 
   apps/mcp-server:
     dependencies:
-      '@datto-rmm/api':
-        specifier: workspace:*
-        version: link:../../packages/api
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
         version: 1.25.2(hono@4.11.3)(zod@3.25.76)
+      datto-rmm-api:
+        specifier: workspace:*
+        version: link:../../packages/api
     devDependencies:
       '@types/node':
         specifier: ^22.10.2

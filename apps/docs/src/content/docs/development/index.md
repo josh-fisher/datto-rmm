@@ -36,8 +36,8 @@ pnpm build
 ### Making Changes to TypeScript Client
 
 1. Edit files in `packages/api/src/`
-2. Run `pnpm --filter @datto-rmm/api build` to compile
-3. Run `pnpm --filter @datto-rmm/api typecheck` to verify types
+2. Run `pnpm --filter datto-rmm-api build` to compile
+3. Run `pnpm --filter datto-rmm-api typecheck` to verify types
 
 ### Making Changes to Rust Client
 
@@ -92,7 +92,7 @@ pnpm build
 pnpm test
 
 # Run tests for specific package
-pnpm --filter @datto-rmm/api test
+pnpm --filter datto-rmm-api test
 ```
 
 ### Rust

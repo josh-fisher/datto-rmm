@@ -1,5 +1,5 @@
 {
-  "name": "@datto-rmm/mcp-server",
+  "name": "datto-rmm-mcp-server",
   "version": "0.1.0",
   "description": "MCP server for Datto RMM - enables AI assistants to interact with Datto RMM",
   "author": "josh-fisher",
@@ -34,7 +34,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@datto-rmm/api": "workspace:*",
+    "datto-rmm-api": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "devDependencies": {

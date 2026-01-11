@@ -9,8 +9,8 @@ Welcome to the Datto RMM Tooling documentation. This monorepo provides a complet
 
 This repository contains:
 
-- **MCP Server** (`@datto-rmm/mcp-server`) - Integrate Datto RMM with AI assistants like Claude
-- **TypeScript Client** (`@datto-rmm/api`) - Fully typed API client with auto-generated types
+- **MCP Server** (`datto-rmm-mcp-server`) - Integrate Datto RMM with AI assistants like Claude
+- **TypeScript Client** (`datto-rmm-api`) - Fully typed API client with auto-generated types
 - **Rust Client** (`datto-api`) - Async Rust client with OAuth support
 - **Documentation** - This documentation site
 
@@ -18,8 +18,8 @@ This repository contains:
 
 | Package | Description | Status |
 |---------|-------------|--------|
-| [@datto-rmm/mcp-server](/api/mcp-server/) | MCP server for AI assistants | Stable |
-| [@datto-rmm/api](/api/typescript-client/) | TypeScript API client | Stable |
+| [datto-rmm-mcp-server](/api/mcp-server/) | MCP server for AI assistants | Stable |
+| [datto-rmm-api](/api/typescript-client/) | TypeScript API client | Stable |
 | [datto-api](/api/rust-client/) | Rust API client | Stable |
 
 ## Key Features
@@ -45,7 +45,7 @@ Configure in Claude Desktop and interact with natural language:
 ### TypeScript Client
 
 ```typescript
-import { createDattoClient, Platform } from '@datto-rmm/api';
+import { createDattoClient, Platform } from 'datto-rmm-api';
 
 const client = createDattoClient({
   platform: Platform.MERLOT,

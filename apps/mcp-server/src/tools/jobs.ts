@@ -1,4 +1,4 @@
-import type { DattoClient } from '@datto-rmm/api';
+import type { DattoClient } from 'datto-rmm-api';
 import { normalizePagination, parsePageInfo } from '../utils/pagination.js';
 import { handleResponse, errorResult, successResult, type ToolResult } from '../utils/response.js';
 import type * as T from '../types.js';

@@ -1,4 +1,4 @@
-import type { DattoClient } from '@datto-rmm/api';
+import type { DattoClient } from 'datto-rmm-api';
 import { handleVoidResponse, errorResult, successResult, type ToolResult } from '../utils/response.js';
 
 /**

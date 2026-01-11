@@ -1,20 +1,20 @@
 ---
 title: TypeScript Client
-description: Using the @datto-rmm/api TypeScript client
+description: Using the datto-rmm-api TypeScript client
 ---
 
-The `@datto-rmm/api` package provides a fully typed TypeScript client for the Datto RMM API.
+The `datto-rmm-api` package provides a fully typed TypeScript client for the Datto RMM API.
 
 ## Installation
 
 ```bash
-pnpm add @datto-rmm/api
+pnpm add datto-rmm-api
 ```
 
 ## Quick Start
 
 ```typescript
-import { createDattoClient, Platform } from '@datto-rmm/api';
+import { createDattoClient, Platform } from 'datto-rmm-api';
 
 // Create a client with OAuth credentials
 const client = createDattoClient({
@@ -40,7 +40,7 @@ if (error) {
 The Datto RMM API is hosted on multiple regional platforms. Choose the platform that matches your account:
 
 ```typescript
-import { Platform } from '@datto-rmm/api';
+import { Platform } from 'datto-rmm-api';
 
 // Available platforms
 Platform.PINOTAGE  // https://pinotage-api.centrastage.net/api
@@ -187,7 +187,7 @@ const client = createDattoClient({
 All API types are exported for use in your application:
 
 ```typescript
-import type { components, paths } from '@datto-rmm/api/types';
+import type { components, paths } from 'datto-rmm-api/types';
 
 // Use schema types
 type Device = components['schemas']['Device'];

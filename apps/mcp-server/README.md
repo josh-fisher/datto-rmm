@@ -1,4 +1,4 @@
-# @datto-rmm/mcp-server
+# datto-rmm-mcp-server
 
 MCP (Model Context Protocol) server for Datto RMM. Enables AI assistants like Claude to interact with your Datto RMM account.
 
@@ -8,14 +8,14 @@ MCP (Model Context Protocol) server for Datto RMM. Enables AI assistants like Cl
 - **6 MCP Resources** for browsable data hierarchies
 - **Full OAuth 2.0 support** with automatic token management
 - **All 6 Datto platforms** supported (Pinotage, Merlot, Concord, Vidal, Zinfandel, Syrah)
-- **Type-safe** - Built on the `@datto-rmm/api` package
+- **Type-safe** - Built on the `datto-rmm-api` package
 
 ## Installation
 
 ```bash
-npm install @datto-rmm/mcp-server
+npm install datto-rmm-mcp-server
 # or
-pnpm add @datto-rmm/mcp-server
+pnpm add datto-rmm-mcp-server
 ```
 
 ## Configuration
@@ -46,7 +46,7 @@ Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/
   "mcpServers": {
     "datto-rmm": {
       "command": "npx",
-      "args": ["@datto-rmm/mcp-server"],
+      "args": ["datto-rmm-mcp-server"],
       "env": {
         "DATTO_API_KEY": "your-api-key",
         "DATTO_API_SECRET": "your-api-secret",

@@ -1,4 +1,4 @@
-import { Platform } from '@datto-rmm/api';
+import { Platform } from 'datto-rmm-api';
 
 /**
  * Configuration for the Datto RMM MCP server.

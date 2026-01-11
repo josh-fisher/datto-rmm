@@ -64,7 +64,7 @@ cargo test
 pnpm test
 
 # TypeScript tests in watch mode
-pnpm --filter @datto-rmm/api test:watch
+pnpm --filter datto-rmm-api test:watch
 
 # Rust tests
 cargo test -p datto-api
@@ -160,7 +160,7 @@ Use conventional commit format for PR titles (same as commit messages above).
 ```
 datto-rmm/
 ├── apps/docs/           # Documentation site (Starlight)
-├── packages/api/        # TypeScript client (@datto-rmm/api)
+├── packages/api/        # TypeScript client (datto-rmm-api)
 │   ├── src/
 │   │   ├── auth/        # Authentication middleware
 │   │   ├── generated/   # Auto-generated types (don't edit)

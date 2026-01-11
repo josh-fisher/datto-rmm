@@ -1,17 +1,17 @@
-# @datto-rmm/api
+# datto-rmm-api
 
 Auto-generated TypeScript client for the Datto RMM API.
 
 ## Installation
 
 ```bash
-pnpm add @datto-rmm/api
+pnpm add datto-rmm-api
 ```
 
 ## Quick Start
 
 ```typescript
-import { createDattoClient, Platform } from '@datto-rmm/api';
+import { createDattoClient, Platform } from 'datto-rmm-api';
 
 // Create a client with OAuth credentials
 const client = createDattoClient({
@@ -37,7 +37,7 @@ if (error) {
 The Datto RMM API is hosted on multiple regional platforms. All platforms share the same API schema.
 
 ```typescript
-import { Platform } from '@datto-rmm/api';
+import { Platform } from 'datto-rmm-api';
 
 // Available platforms
 Platform.PINOTAGE  // https://pinotage-api.centrastage.net/api
@@ -119,7 +119,7 @@ const { data: job } = await client.PUT('/v2/device/{deviceUid}/quickjob', {
 Add custom middleware for logging, error handling, or other cross-cutting concerns:
 
 ```typescript
-import { createDattoClient, Platform } from '@datto-rmm/api';
+import { createDattoClient, Platform } from 'datto-rmm-api';
 
 const client = createDattoClient({
   platform: Platform.MERLOT,
@@ -144,7 +144,7 @@ const client = createDattoClient({
 All API types are exported for use in your application:
 
 ```typescript
-import type { components, paths } from '@datto-rmm/api/types';
+import type { components, paths } from 'datto-rmm-api/types';
 
 // Use schema types
 type Device = components['schemas']['Device'];
