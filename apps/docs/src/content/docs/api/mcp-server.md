@@ -237,8 +237,8 @@ The server handles errors gracefully:
 
 ### Authentication Errors
 
-1. Verify your API key and secret are correct
-2. Check that your API credentials have the required permissions
+1. Verify your API key and secret are correct (keys are generated per-user in Datto RMM)
+2. Check that your user account has the required permissions for the operations you're performing
 3. Ensure the platform matches your account's region
 
 ### Rate Limiting

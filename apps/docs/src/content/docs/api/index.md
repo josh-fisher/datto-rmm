@@ -46,7 +46,8 @@ The API provides endpoints for:
 
 All packages use OAuth 2.0 client credentials flow:
 
-1. Obtain API Key and Secret from your Datto RMM portal
+1. Obtain API Key and Secret from your Datto RMM portal (your user profile → API Details)
+   - API keys are generated per-user from each user's profile settings
 2. The client exchanges credentials for an access token
 3. Tokens are cached and automatically refreshed before expiry
 
