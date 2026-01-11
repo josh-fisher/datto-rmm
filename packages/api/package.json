@@ -51,7 +51,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "openapi-fetch": "^0.13.5"
+    "openapi-fetch": "^0.15.0"
   },
   "devDependencies": {
     "openapi-typescript": "^7.6.1",
