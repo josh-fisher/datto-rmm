@@ -131,7 +131,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.check.outputs.has_changes == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(specs): update OpenAPI spec to v${{ steps.check.outputs.api_version }}"
