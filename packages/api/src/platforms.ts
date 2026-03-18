@@ -38,5 +38,5 @@ export function getPlatformUrl(platform: Platform): string {
  * Get the OAuth token endpoint for a platform.
  */
 export function getTokenEndpoint(platform: Platform): string {
-  return `${PLATFORM_URLS[platform]}/public/oauth/token`;
+  return `${PLATFORM_URLS[platform].replace('/api', '/auth')}/oauth/token`;
 }
