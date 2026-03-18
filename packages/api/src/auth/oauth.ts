@@ -77,17 +77,14 @@ export class OAuthTokenManager {
    * Force a token refresh.
    */
   async refreshToken(): Promise<string> {
-    const credentials = btoa(
-      `${this.credentials.apiKey}:${this.credentials.apiSecret}`,
-    );
-
+    const credentials = btoa('public-client:public');
     const response = await fetch(this.tokenEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Basic ${credentials}`,
       },
-      body: 'grant_type=client_credentials',
+      body: `grant_type=password&username=${encodeURIComponent(this.credentials.apiKey)}&password=${encodeURIComponent(this.credentials.apiSecret)}`,
     });
 
     if (!response.ok) {
