@@ -54,10 +54,10 @@
     "openapi-fetch": "^0.13.5"
   },
   "devDependencies": {
-    "openapi-typescript": "^7.6.1",
+    "openapi-typescript": "^7.13.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
   },
   "keywords": [
     "datto",

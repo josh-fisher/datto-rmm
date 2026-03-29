@@ -28,10 +28,10 @@
     "commitlint": "commitlint --edit"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "husky": "^9.1.7",
-    "turbo": "^2.3.0",
-    "typescript": "^5.7.2"
+    "turbo": "^2.8.21",
+    "typescript": "^6.0.2"
   }
 }
