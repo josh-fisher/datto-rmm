@@ -20,6 +20,22 @@ pnpm add datto-rmm-mcp-server
 
 ## Configuration
 
+### Environment Variables Setup
+
+For local development, create a `.env` file in the MCP server directory:
+
+```bash
+# Copy the example file
+cp .env.example .env
+
+# Edit .env with your actual credentials
+# NEVER commit .env to version control!
+```
+
+The `.env` file is already listed in `.gitignore` to prevent accidental commits of sensitive credentials.
+
+### Required Variables
+
 The server requires the following environment variables:
 
 | Variable | Required | Description |
@@ -178,12 +194,21 @@ Once connected, you can ask Claude things like:
 # Install dependencies
 pnpm install
 
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your credentials
+
 # Build
 pnpm build
 
-# Run in development mode
-DATTO_API_KEY=xxx DATTO_API_SECRET=yyy pnpm dev
+# Run in development mode (reads from .env)
+pnpm dev
+
+# Or pass env vars directly
+DATTO_API_KEY=xxx DATTO_API_SECRET=yyy DATTO_PLATFORM=staging pnpm dev
 ```
+
+**⚠️ Security Note:** Never commit `.env` to version control. It contains sensitive API credentials and is already listed in `.gitignore`.
 
 ## License
 

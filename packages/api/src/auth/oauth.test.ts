@@ -42,9 +42,9 @@ describe('OAuthTokenManager', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: expect.stringMatching(/^Basic /),
+        Authorization: 'Basic cHVibGljLWNsaWVudDpwdWJsaWM=', // public-client:public
       },
-      body: 'grant_type=client_credentials',
+      body: 'grant_type=password&username=test-api-key&password=test-api-secret',
     });
   });
 

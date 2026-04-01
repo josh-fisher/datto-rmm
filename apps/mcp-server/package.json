@@ -34,8 +34,9 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
     "datto-rmm-api": "workspace:*",
-    "@modelcontextprotocol/sdk": "^1.0.0"
+    "dotenv": "^17.3.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

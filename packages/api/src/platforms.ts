@@ -11,6 +11,9 @@ export const Platform = {
   VIDAL: 'vidal',
   ZINFANDEL: 'zinfandel',
   SYRAH: 'syrah',
+  SANDBOX: 'sandbox',
+  DEVB: 'devb',
+  STAGING: 'staging',
 } as const;
 
 export type Platform = (typeof Platform)[keyof typeof Platform];
@@ -25,6 +28,9 @@ export const PLATFORM_URLS: Record<Platform, string> = {
   [Platform.VIDAL]: 'https://vidal-api.centrastage.net/api',
   [Platform.ZINFANDEL]: 'https://zinfandel-api.centrastage.net/api',
   [Platform.SYRAH]: 'https://syrah-api.centrastage.net/api',
+  [Platform.SANDBOX]: 'https://sandbox-api.centrastage.net/api',
+  [Platform.DEVB]: 'https://devb-api.centrastage.net/api',
+  [Platform.STAGING]: 'https://staging-api.centrastage.net/api',
 } as const;
 
 /**
@@ -36,7 +42,11 @@ export function getPlatformUrl(platform: Platform): string {
 
 /**
  * Get the OAuth token endpoint for a platform.
+ * Uses the password grant endpoint at /auth/oauth/token (no /api prefix).
  */
 export function getTokenEndpoint(platform: Platform): string {
-  return `${PLATFORM_URLS[platform]}/public/oauth/token`;
+  const baseUrl = PLATFORM_URLS[platform];
+  // Remove the '/api' suffix for the token endpoint
+  const rootUrl = baseUrl.replace(/\/api$/, '');
+  return `${rootUrl}/auth/oauth/token`;
 }

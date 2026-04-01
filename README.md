@@ -127,6 +127,27 @@ The Datto RMM API is available on multiple regional platforms:
 | Zinfandel | `https://zinfandel-api.centrastage.net/api` |
 | Syrah | `https://syrah-api.centrastage.net/api` |
 
+## Environment Variables
+
+For local development, you can use a `.env` file to store your credentials:
+
+```bash
+# Copy the example file
+cp .env.example .env
+
+# Edit .env with your actual credentials
+```
+
+**⚠️ Security Warning:**
+- **NEVER commit `.env` to version control** - it contains sensitive API credentials
+- The `.env` file is already listed in `.gitignore` for safety
+- Use environment-specific secrets management in production (e.g., GitHub Secrets, AWS Secrets Manager)
+
+Required variables:
+- `DATTO_API_KEY` - Your Datto RMM API key (from User Profile → API Settings)
+- `DATTO_API_SECRET` - Your Datto RMM API secret
+- `DATTO_PLATFORM` - Platform name (default: `merlot`)
+
 ## Development
 
 ### Prerequisites

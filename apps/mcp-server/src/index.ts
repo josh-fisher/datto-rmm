@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { loadConfig } from './config.js';
 import { runServer } from './server.js';
 

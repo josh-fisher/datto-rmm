@@ -28,6 +28,9 @@ function parsePlatform(value: string | undefined): Platform {
     vidal: Platform.VIDAL,
     zinfandel: Platform.ZINFANDEL,
     syrah: Platform.SYRAH,
+    sandbox: Platform.SANDBOX,
+    devb: Platform.DEVB,
+    staging: Platform.STAGING,
   };
 
   const platform = platforms[normalized];

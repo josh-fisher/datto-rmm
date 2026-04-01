@@ -44,7 +44,8 @@ export function handleResponse<T>(response: { data?: unknown; error?: unknown; r
 
   // Check for explicit error object
   if (response.error) {
-    throw new Error(formatError(response.error));
+    const errorMsg = formatError(response.error);
+    throw new Error(errorMsg);
   }
 
   // Cast data to expected type

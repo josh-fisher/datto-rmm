@@ -9,6 +9,9 @@ describe('Platform', () => {
     expect(Platform.VIDAL).toBe('vidal');
     expect(Platform.ZINFANDEL).toBe('zinfandel');
     expect(Platform.SYRAH).toBe('syrah');
+    expect(Platform.SANDBOX).toBe('sandbox');
+    expect(Platform.DEVB).toBe('devb');
+    expect(Platform.STAGING).toBe('staging');
   });
 });
 
@@ -20,6 +23,9 @@ describe('PLATFORM_URLS', () => {
     expect(PLATFORM_URLS[Platform.VIDAL]).toBe('https://vidal-api.centrastage.net/api');
     expect(PLATFORM_URLS[Platform.ZINFANDEL]).toBe('https://zinfandel-api.centrastage.net/api');
     expect(PLATFORM_URLS[Platform.SYRAH]).toBe('https://syrah-api.centrastage.net/api');
+    expect(PLATFORM_URLS[Platform.SANDBOX]).toBe('https://sandbox-api.centrastage.net/api');
+    expect(PLATFORM_URLS[Platform.DEVB]).toBe('https://devb-api.centrastage.net/api');
+    expect(PLATFORM_URLS[Platform.STAGING]).toBe('https://staging-api.centrastage.net/api');
   });
 });
 
@@ -33,10 +39,10 @@ describe('getPlatformUrl', () => {
 describe('getTokenEndpoint', () => {
   it('should return the OAuth token endpoint for a platform', () => {
     expect(getTokenEndpoint(Platform.MERLOT)).toBe(
-      'https://merlot-api.centrastage.net/api/public/oauth/token'
+      'https://merlot-api.centrastage.net/auth/oauth/token'
     );
     expect(getTokenEndpoint(Platform.PINOTAGE)).toBe(
-      'https://pinotage-api.centrastage.net/api/public/oauth/token'
+      'https://pinotage-api.centrastage.net/auth/oauth/token'
     );
   });
 });
