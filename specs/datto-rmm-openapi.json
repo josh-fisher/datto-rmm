@@ -7,7 +7,7 @@
       "name": "©Datto, Inc. - All rights reserved. ",
       "url": "http://www.datto.com/"
     },
-    "version": "2.0.0 (Build 1.22.1-576_667cfe9f)"
+    "version": "2.0.0 (Build 201_aadf6556fb176a75fbb9b2aad0f0d2301d64c88a)"
   },
   "servers": [
     {
@@ -2946,6 +2946,16 @@
               }
             },
             "example": "1,4"
+          },
+          {
+            "name": "searchQuery",
+            "in": "query",
+            "description": "Enter queries using single words, phrases, terms containing wildcards or boolean operators, fuzzy searches, grouped searches, or special characters. See <a href=\"https://rmm.datto.com/help/en/Content/3NEWUI/Analytics/ActivityLog.htm\">Activity Log</a> for more details.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "data.filter_id : \"filterId\" AND device.hostname : \"hostname\""
           }
         ],
         "responses": {
@@ -3888,13 +3898,13 @@
             "format": "int64",
             "writeOnly": true
           },
-          "receivesAlerts": {
+          "receivesNewDevices": {
             "type": "boolean"
           },
           "receivesReports": {
             "type": "boolean"
           },
-          "receivesNewDevices": {
+          "receivesAlerts": {
             "type": "boolean"
           }
         }
@@ -4019,6 +4029,816 @@
           },
           "udf30": {
             "type": "string"
+          },
+          "udf31": {
+            "type": "string"
+          },
+          "udf32": {
+            "type": "string"
+          },
+          "udf33": {
+            "type": "string"
+          },
+          "udf34": {
+            "type": "string"
+          },
+          "udf35": {
+            "type": "string"
+          },
+          "udf36": {
+            "type": "string"
+          },
+          "udf37": {
+            "type": "string"
+          },
+          "udf38": {
+            "type": "string"
+          },
+          "udf39": {
+            "type": "string"
+          },
+          "udf40": {
+            "type": "string"
+          },
+          "udf41": {
+            "type": "string"
+          },
+          "udf42": {
+            "type": "string"
+          },
+          "udf43": {
+            "type": "string"
+          },
+          "udf44": {
+            "type": "string"
+          },
+          "udf45": {
+            "type": "string"
+          },
+          "udf46": {
+            "type": "string"
+          },
+          "udf47": {
+            "type": "string"
+          },
+          "udf48": {
+            "type": "string"
+          },
+          "udf49": {
+            "type": "string"
+          },
+          "udf50": {
+            "type": "string"
+          },
+          "udf51": {
+            "type": "string"
+          },
+          "udf52": {
+            "type": "string"
+          },
+          "udf53": {
+            "type": "string"
+          },
+          "udf54": {
+            "type": "string"
+          },
+          "udf55": {
+            "type": "string"
+          },
+          "udf56": {
+            "type": "string"
+          },
+          "udf57": {
+            "type": "string"
+          },
+          "udf58": {
+            "type": "string"
+          },
+          "udf59": {
+            "type": "string"
+          },
+          "udf60": {
+            "type": "string"
+          },
+          "udf61": {
+            "type": "string"
+          },
+          "udf62": {
+            "type": "string"
+          },
+          "udf63": {
+            "type": "string"
+          },
+          "udf64": {
+            "type": "string"
+          },
+          "udf65": {
+            "type": "string"
+          },
+          "udf66": {
+            "type": "string"
+          },
+          "udf67": {
+            "type": "string"
+          },
+          "udf68": {
+            "type": "string"
+          },
+          "udf69": {
+            "type": "string"
+          },
+          "udf70": {
+            "type": "string"
+          },
+          "udf71": {
+            "type": "string"
+          },
+          "udf72": {
+            "type": "string"
+          },
+          "udf73": {
+            "type": "string"
+          },
+          "udf74": {
+            "type": "string"
+          },
+          "udf75": {
+            "type": "string"
+          },
+          "udf76": {
+            "type": "string"
+          },
+          "udf77": {
+            "type": "string"
+          },
+          "udf78": {
+            "type": "string"
+          },
+          "udf79": {
+            "type": "string"
+          },
+          "udf80": {
+            "type": "string"
+          },
+          "udf81": {
+            "type": "string"
+          },
+          "udf82": {
+            "type": "string"
+          },
+          "udf83": {
+            "type": "string"
+          },
+          "udf84": {
+            "type": "string"
+          },
+          "udf85": {
+            "type": "string"
+          },
+          "udf86": {
+            "type": "string"
+          },
+          "udf87": {
+            "type": "string"
+          },
+          "udf88": {
+            "type": "string"
+          },
+          "udf89": {
+            "type": "string"
+          },
+          "udf90": {
+            "type": "string"
+          },
+          "udf91": {
+            "type": "string"
+          },
+          "udf92": {
+            "type": "string"
+          },
+          "udf93": {
+            "type": "string"
+          },
+          "udf94": {
+            "type": "string"
+          },
+          "udf95": {
+            "type": "string"
+          },
+          "udf96": {
+            "type": "string"
+          },
+          "udf97": {
+            "type": "string"
+          },
+          "udf98": {
+            "type": "string"
+          },
+          "udf99": {
+            "type": "string"
+          },
+          "udf100": {
+            "type": "string"
+          },
+          "udf101": {
+            "type": "string"
+          },
+          "udf102": {
+            "type": "string"
+          },
+          "udf103": {
+            "type": "string"
+          },
+          "udf104": {
+            "type": "string"
+          },
+          "udf105": {
+            "type": "string"
+          },
+          "udf106": {
+            "type": "string"
+          },
+          "udf107": {
+            "type": "string"
+          },
+          "udf108": {
+            "type": "string"
+          },
+          "udf109": {
+            "type": "string"
+          },
+          "udf110": {
+            "type": "string"
+          },
+          "udf111": {
+            "type": "string"
+          },
+          "udf112": {
+            "type": "string"
+          },
+          "udf113": {
+            "type": "string"
+          },
+          "udf114": {
+            "type": "string"
+          },
+          "udf115": {
+            "type": "string"
+          },
+          "udf116": {
+            "type": "string"
+          },
+          "udf117": {
+            "type": "string"
+          },
+          "udf118": {
+            "type": "string"
+          },
+          "udf119": {
+            "type": "string"
+          },
+          "udf120": {
+            "type": "string"
+          },
+          "udf121": {
+            "type": "string"
+          },
+          "udf122": {
+            "type": "string"
+          },
+          "udf123": {
+            "type": "string"
+          },
+          "udf124": {
+            "type": "string"
+          },
+          "udf125": {
+            "type": "string"
+          },
+          "udf126": {
+            "type": "string"
+          },
+          "udf127": {
+            "type": "string"
+          },
+          "udf128": {
+            "type": "string"
+          },
+          "udf129": {
+            "type": "string"
+          },
+          "udf130": {
+            "type": "string"
+          },
+          "udf131": {
+            "type": "string"
+          },
+          "udf132": {
+            "type": "string"
+          },
+          "udf133": {
+            "type": "string"
+          },
+          "udf134": {
+            "type": "string"
+          },
+          "udf135": {
+            "type": "string"
+          },
+          "udf136": {
+            "type": "string"
+          },
+          "udf137": {
+            "type": "string"
+          },
+          "udf138": {
+            "type": "string"
+          },
+          "udf139": {
+            "type": "string"
+          },
+          "udf140": {
+            "type": "string"
+          },
+          "udf141": {
+            "type": "string"
+          },
+          "udf142": {
+            "type": "string"
+          },
+          "udf143": {
+            "type": "string"
+          },
+          "udf144": {
+            "type": "string"
+          },
+          "udf145": {
+            "type": "string"
+          },
+          "udf146": {
+            "type": "string"
+          },
+          "udf147": {
+            "type": "string"
+          },
+          "udf148": {
+            "type": "string"
+          },
+          "udf149": {
+            "type": "string"
+          },
+          "udf150": {
+            "type": "string"
+          },
+          "udf151": {
+            "type": "string"
+          },
+          "udf152": {
+            "type": "string"
+          },
+          "udf153": {
+            "type": "string"
+          },
+          "udf154": {
+            "type": "string"
+          },
+          "udf155": {
+            "type": "string"
+          },
+          "udf156": {
+            "type": "string"
+          },
+          "udf157": {
+            "type": "string"
+          },
+          "udf158": {
+            "type": "string"
+          },
+          "udf159": {
+            "type": "string"
+          },
+          "udf160": {
+            "type": "string"
+          },
+          "udf161": {
+            "type": "string"
+          },
+          "udf162": {
+            "type": "string"
+          },
+          "udf163": {
+            "type": "string"
+          },
+          "udf164": {
+            "type": "string"
+          },
+          "udf165": {
+            "type": "string"
+          },
+          "udf166": {
+            "type": "string"
+          },
+          "udf167": {
+            "type": "string"
+          },
+          "udf168": {
+            "type": "string"
+          },
+          "udf169": {
+            "type": "string"
+          },
+          "udf170": {
+            "type": "string"
+          },
+          "udf171": {
+            "type": "string"
+          },
+          "udf172": {
+            "type": "string"
+          },
+          "udf173": {
+            "type": "string"
+          },
+          "udf174": {
+            "type": "string"
+          },
+          "udf175": {
+            "type": "string"
+          },
+          "udf176": {
+            "type": "string"
+          },
+          "udf177": {
+            "type": "string"
+          },
+          "udf178": {
+            "type": "string"
+          },
+          "udf179": {
+            "type": "string"
+          },
+          "udf180": {
+            "type": "string"
+          },
+          "udf181": {
+            "type": "string"
+          },
+          "udf182": {
+            "type": "string"
+          },
+          "udf183": {
+            "type": "string"
+          },
+          "udf184": {
+            "type": "string"
+          },
+          "udf185": {
+            "type": "string"
+          },
+          "udf186": {
+            "type": "string"
+          },
+          "udf187": {
+            "type": "string"
+          },
+          "udf188": {
+            "type": "string"
+          },
+          "udf189": {
+            "type": "string"
+          },
+          "udf190": {
+            "type": "string"
+          },
+          "udf191": {
+            "type": "string"
+          },
+          "udf192": {
+            "type": "string"
+          },
+          "udf193": {
+            "type": "string"
+          },
+          "udf194": {
+            "type": "string"
+          },
+          "udf195": {
+            "type": "string"
+          },
+          "udf196": {
+            "type": "string"
+          },
+          "udf197": {
+            "type": "string"
+          },
+          "udf198": {
+            "type": "string"
+          },
+          "udf199": {
+            "type": "string"
+          },
+          "udf200": {
+            "type": "string"
+          },
+          "udf201": {
+            "type": "string"
+          },
+          "udf202": {
+            "type": "string"
+          },
+          "udf203": {
+            "type": "string"
+          },
+          "udf204": {
+            "type": "string"
+          },
+          "udf205": {
+            "type": "string"
+          },
+          "udf206": {
+            "type": "string"
+          },
+          "udf207": {
+            "type": "string"
+          },
+          "udf208": {
+            "type": "string"
+          },
+          "udf209": {
+            "type": "string"
+          },
+          "udf210": {
+            "type": "string"
+          },
+          "udf211": {
+            "type": "string"
+          },
+          "udf212": {
+            "type": "string"
+          },
+          "udf213": {
+            "type": "string"
+          },
+          "udf214": {
+            "type": "string"
+          },
+          "udf215": {
+            "type": "string"
+          },
+          "udf216": {
+            "type": "string"
+          },
+          "udf217": {
+            "type": "string"
+          },
+          "udf218": {
+            "type": "string"
+          },
+          "udf219": {
+            "type": "string"
+          },
+          "udf220": {
+            "type": "string"
+          },
+          "udf221": {
+            "type": "string"
+          },
+          "udf222": {
+            "type": "string"
+          },
+          "udf223": {
+            "type": "string"
+          },
+          "udf224": {
+            "type": "string"
+          },
+          "udf225": {
+            "type": "string"
+          },
+          "udf226": {
+            "type": "string"
+          },
+          "udf227": {
+            "type": "string"
+          },
+          "udf228": {
+            "type": "string"
+          },
+          "udf229": {
+            "type": "string"
+          },
+          "udf230": {
+            "type": "string"
+          },
+          "udf231": {
+            "type": "string"
+          },
+          "udf232": {
+            "type": "string"
+          },
+          "udf233": {
+            "type": "string"
+          },
+          "udf234": {
+            "type": "string"
+          },
+          "udf235": {
+            "type": "string"
+          },
+          "udf236": {
+            "type": "string"
+          },
+          "udf237": {
+            "type": "string"
+          },
+          "udf238": {
+            "type": "string"
+          },
+          "udf239": {
+            "type": "string"
+          },
+          "udf240": {
+            "type": "string"
+          },
+          "udf241": {
+            "type": "string"
+          },
+          "udf242": {
+            "type": "string"
+          },
+          "udf243": {
+            "type": "string"
+          },
+          "udf244": {
+            "type": "string"
+          },
+          "udf245": {
+            "type": "string"
+          },
+          "udf246": {
+            "type": "string"
+          },
+          "udf247": {
+            "type": "string"
+          },
+          "udf248": {
+            "type": "string"
+          },
+          "udf249": {
+            "type": "string"
+          },
+          "udf250": {
+            "type": "string"
+          },
+          "udf251": {
+            "type": "string"
+          },
+          "udf252": {
+            "type": "string"
+          },
+          "udf253": {
+            "type": "string"
+          },
+          "udf254": {
+            "type": "string"
+          },
+          "udf255": {
+            "type": "string"
+          },
+          "udf256": {
+            "type": "string"
+          },
+          "udf257": {
+            "type": "string"
+          },
+          "udf258": {
+            "type": "string"
+          },
+          "udf259": {
+            "type": "string"
+          },
+          "udf260": {
+            "type": "string"
+          },
+          "udf261": {
+            "type": "string"
+          },
+          "udf262": {
+            "type": "string"
+          },
+          "udf263": {
+            "type": "string"
+          },
+          "udf264": {
+            "type": "string"
+          },
+          "udf265": {
+            "type": "string"
+          },
+          "udf266": {
+            "type": "string"
+          },
+          "udf267": {
+            "type": "string"
+          },
+          "udf268": {
+            "type": "string"
+          },
+          "udf269": {
+            "type": "string"
+          },
+          "udf270": {
+            "type": "string"
+          },
+          "udf271": {
+            "type": "string"
+          },
+          "udf272": {
+            "type": "string"
+          },
+          "udf273": {
+            "type": "string"
+          },
+          "udf274": {
+            "type": "string"
+          },
+          "udf275": {
+            "type": "string"
+          },
+          "udf276": {
+            "type": "string"
+          },
+          "udf277": {
+            "type": "string"
+          },
+          "udf278": {
+            "type": "string"
+          },
+          "udf279": {
+            "type": "string"
+          },
+          "udf280": {
+            "type": "string"
+          },
+          "udf281": {
+            "type": "string"
+          },
+          "udf282": {
+            "type": "string"
+          },
+          "udf283": {
+            "type": "string"
+          },
+          "udf284": {
+            "type": "string"
+          },
+          "udf285": {
+            "type": "string"
+          },
+          "udf286": {
+            "type": "string"
+          },
+          "udf287": {
+            "type": "string"
+          },
+          "udf288": {
+            "type": "string"
+          },
+          "udf289": {
+            "type": "string"
+          },
+          "udf290": {
+            "type": "string"
+          },
+          "udf291": {
+            "type": "string"
+          },
+          "udf292": {
+            "type": "string"
+          },
+          "udf293": {
+            "type": "string"
+          },
+          "udf294": {
+            "type": "string"
+          },
+          "udf295": {
+            "type": "string"
+          },
+          "udf296": {
+            "type": "string"
+          },
+          "udf297": {
+            "type": "string"
+          },
+          "udf298": {
+            "type": "string"
+          },
+          "udf299": {
+            "type": "string"
+          },
+          "udf300": {
+            "type": "string"
           }
         }
       },
@@ -4034,6 +4854,19 @@
           "started": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "OperationRateStatus": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -4058,6 +4891,20 @@
           "accountCutOffRatio": {
             "type": "number",
             "format": "float"
+          },
+          "accountWriteRateLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountWriteCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "operationWriteStatus": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/OperationRateStatus"
+            }
           }
         }
       },
