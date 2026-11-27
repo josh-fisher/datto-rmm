@@ -191,7 +191,7 @@ export interface paths {
         put?: never;
         /**
          * Sets the user defined fields of a device identified by the given device Uid.
-         * @description Any user defined field supplied with an empty value will be set to null. All user defined fields not supplied will retain their current values.
+         * @description All UDF values are accepted as strings. Any user defined field supplied with an empty or null value will be deleted. All user defined fields not supplied will retain their current values. The API attempts to parse string values into their configured types (BOOLEAN/NUMBER/DATE). If a value cannot be parsed to match its configured type, it will be stored as a string and flagged as a type mismatch.
          */
         post: operations["setUdfFields"];
         delete?: never;
@@ -355,6 +355,26 @@ export interface paths {
         };
         /** Fetches settings of the site identified by the given site Uid. */
         get: operations["getSiteSettings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v2/site/{siteUid}/patches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetches the patches of all devices in the site identified by the given site Uid.
+         * @description Returns a paginated list of patches aggregated across the site's devices. When the optional installStatus parameter is omitted, a single patch may appear up to three times — once per bucket (INSTALLED/APPROVED_PENDING/NOT_APPROVED) it has devices in, each with its own totalDevices count.
+         */
+        get: operations["getSitePatches"];
         put?: never;
         post?: never;
         delete?: never;
@@ -582,6 +602,46 @@ export interface paths {
         };
         /** Fetches data of the device identified by the given device Uid. */
         get: operations["getByUid"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v2/device/{deviceUid}/policies/patch-management": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetches the patch-management policies of the device identified by the given device Uid.
+         * @description Returns a paginated list of patch policies associated with the device, with each policy grouped into scope, schedule, power, approval and rebootBehavior sections.
+         */
+        get: operations["getDevicePatchPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v2/device/{deviceUid}/patches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetches the patches of the device identified by the given device Uid.
+         * @description Returns a paginated list of patches for the device. The optional installStatus parameter filters results by INSTALLED, APPROVED_PENDING or NOT_APPROVED. When omitted, all patches for the device are returned.
+         */
+        get: operations["getDevicePatches"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1091,9 +1151,9 @@ export interface components {
             type?: string;
             /** Format: int64 */
             receives?: number;
+            receivesNewDevices?: boolean;
             receivesAlerts?: boolean;
             receivesReports?: boolean;
-            receivesNewDevices?: boolean;
         };
         /** @description Site settings data */
         SiteSettings: {
@@ -1137,12 +1197,288 @@ export interface components {
             udf28?: string;
             udf29?: string;
             udf30?: string;
+            udf31?: string;
+            udf32?: string;
+            udf33?: string;
+            udf34?: string;
+            udf35?: string;
+            udf36?: string;
+            udf37?: string;
+            udf38?: string;
+            udf39?: string;
+            udf40?: string;
+            udf41?: string;
+            udf42?: string;
+            udf43?: string;
+            udf44?: string;
+            udf45?: string;
+            udf46?: string;
+            udf47?: string;
+            udf48?: string;
+            udf49?: string;
+            udf50?: string;
+            udf51?: string;
+            udf52?: string;
+            udf53?: string;
+            udf54?: string;
+            udf55?: string;
+            udf56?: string;
+            udf57?: string;
+            udf58?: string;
+            udf59?: string;
+            udf60?: string;
+            udf61?: string;
+            udf62?: string;
+            udf63?: string;
+            udf64?: string;
+            udf65?: string;
+            udf66?: string;
+            udf67?: string;
+            udf68?: string;
+            udf69?: string;
+            udf70?: string;
+            udf71?: string;
+            udf72?: string;
+            udf73?: string;
+            udf74?: string;
+            udf75?: string;
+            udf76?: string;
+            udf77?: string;
+            udf78?: string;
+            udf79?: string;
+            udf80?: string;
+            udf81?: string;
+            udf82?: string;
+            udf83?: string;
+            udf84?: string;
+            udf85?: string;
+            udf86?: string;
+            udf87?: string;
+            udf88?: string;
+            udf89?: string;
+            udf90?: string;
+            udf91?: string;
+            udf92?: string;
+            udf93?: string;
+            udf94?: string;
+            udf95?: string;
+            udf96?: string;
+            udf97?: string;
+            udf98?: string;
+            udf99?: string;
+            udf100?: string;
+            udf101?: string;
+            udf102?: string;
+            udf103?: string;
+            udf104?: string;
+            udf105?: string;
+            udf106?: string;
+            udf107?: string;
+            udf108?: string;
+            udf109?: string;
+            udf110?: string;
+            udf111?: string;
+            udf112?: string;
+            udf113?: string;
+            udf114?: string;
+            udf115?: string;
+            udf116?: string;
+            udf117?: string;
+            udf118?: string;
+            udf119?: string;
+            udf120?: string;
+            udf121?: string;
+            udf122?: string;
+            udf123?: string;
+            udf124?: string;
+            udf125?: string;
+            udf126?: string;
+            udf127?: string;
+            udf128?: string;
+            udf129?: string;
+            udf130?: string;
+            udf131?: string;
+            udf132?: string;
+            udf133?: string;
+            udf134?: string;
+            udf135?: string;
+            udf136?: string;
+            udf137?: string;
+            udf138?: string;
+            udf139?: string;
+            udf140?: string;
+            udf141?: string;
+            udf142?: string;
+            udf143?: string;
+            udf144?: string;
+            udf145?: string;
+            udf146?: string;
+            udf147?: string;
+            udf148?: string;
+            udf149?: string;
+            udf150?: string;
+            udf151?: string;
+            udf152?: string;
+            udf153?: string;
+            udf154?: string;
+            udf155?: string;
+            udf156?: string;
+            udf157?: string;
+            udf158?: string;
+            udf159?: string;
+            udf160?: string;
+            udf161?: string;
+            udf162?: string;
+            udf163?: string;
+            udf164?: string;
+            udf165?: string;
+            udf166?: string;
+            udf167?: string;
+            udf168?: string;
+            udf169?: string;
+            udf170?: string;
+            udf171?: string;
+            udf172?: string;
+            udf173?: string;
+            udf174?: string;
+            udf175?: string;
+            udf176?: string;
+            udf177?: string;
+            udf178?: string;
+            udf179?: string;
+            udf180?: string;
+            udf181?: string;
+            udf182?: string;
+            udf183?: string;
+            udf184?: string;
+            udf185?: string;
+            udf186?: string;
+            udf187?: string;
+            udf188?: string;
+            udf189?: string;
+            udf190?: string;
+            udf191?: string;
+            udf192?: string;
+            udf193?: string;
+            udf194?: string;
+            udf195?: string;
+            udf196?: string;
+            udf197?: string;
+            udf198?: string;
+            udf199?: string;
+            udf200?: string;
+            udf201?: string;
+            udf202?: string;
+            udf203?: string;
+            udf204?: string;
+            udf205?: string;
+            udf206?: string;
+            udf207?: string;
+            udf208?: string;
+            udf209?: string;
+            udf210?: string;
+            udf211?: string;
+            udf212?: string;
+            udf213?: string;
+            udf214?: string;
+            udf215?: string;
+            udf216?: string;
+            udf217?: string;
+            udf218?: string;
+            udf219?: string;
+            udf220?: string;
+            udf221?: string;
+            udf222?: string;
+            udf223?: string;
+            udf224?: string;
+            udf225?: string;
+            udf226?: string;
+            udf227?: string;
+            udf228?: string;
+            udf229?: string;
+            udf230?: string;
+            udf231?: string;
+            udf232?: string;
+            udf233?: string;
+            udf234?: string;
+            udf235?: string;
+            udf236?: string;
+            udf237?: string;
+            udf238?: string;
+            udf239?: string;
+            udf240?: string;
+            udf241?: string;
+            udf242?: string;
+            udf243?: string;
+            udf244?: string;
+            udf245?: string;
+            udf246?: string;
+            udf247?: string;
+            udf248?: string;
+            udf249?: string;
+            udf250?: string;
+            udf251?: string;
+            udf252?: string;
+            udf253?: string;
+            udf254?: string;
+            udf255?: string;
+            udf256?: string;
+            udf257?: string;
+            udf258?: string;
+            udf259?: string;
+            udf260?: string;
+            udf261?: string;
+            udf262?: string;
+            udf263?: string;
+            udf264?: string;
+            udf265?: string;
+            udf266?: string;
+            udf267?: string;
+            udf268?: string;
+            udf269?: string;
+            udf270?: string;
+            udf271?: string;
+            udf272?: string;
+            udf273?: string;
+            udf274?: string;
+            udf275?: string;
+            udf276?: string;
+            udf277?: string;
+            udf278?: string;
+            udf279?: string;
+            udf280?: string;
+            udf281?: string;
+            udf282?: string;
+            udf283?: string;
+            udf284?: string;
+            udf285?: string;
+            udf286?: string;
+            udf287?: string;
+            udf288?: string;
+            udf289?: string;
+            udf290?: string;
+            udf291?: string;
+            udf292?: string;
+            udf293?: string;
+            udf294?: string;
+            udf295?: string;
+            udf296?: string;
+            udf297?: string;
+            udf298?: string;
+            udf299?: string;
+            udf300?: string;
         };
         StatusResponse: {
             version?: string;
             status?: string;
             /** Format: date-time */
             started?: string;
+        };
+        OperationRateStatus: {
+            /** Format: int32 */
+            limit?: number;
+            /** Format: int32 */
+            count?: number;
         };
         RateStatusResponse: {
             /** Format: int64 */
@@ -1154,6 +1490,13 @@ export interface components {
             accountRateLimit?: number;
             /** Format: float */
             accountCutOffRatio?: number;
+            /** Format: int32 */
+            accountWriteRateLimit?: number;
+            /** Format: int64 */
+            accountWriteCount?: number;
+            operationWriteStatus?: {
+                [key: string]: components["schemas"]["OperationRateStatus"];
+            };
         };
         /** @description Pagination configuration */
         PaginationConfiguration: {
@@ -1184,6 +1527,32 @@ export interface components {
         VariablesPage: {
             pageDetails?: components["schemas"]["PaginationData"];
             variables?: components["schemas"]["Variable"][];
+        };
+        /** @description Patch data for a site, aggregated across devices */
+        SitePatch: {
+            patchId?: string;
+            category?: string[];
+            /** @enum {string} */
+            type?: "SOFTWARE" | "DRIVER";
+            title?: string;
+            description?: string;
+            releaseDate?: string;
+            /** @enum {string} */
+            severity?: "CRITICAL" | "IMPORTANT" | "MODERATE" | "LOW" | "UNSPECIFIED";
+            /** Format: int64 */
+            maxSize?: number;
+            rebootRequired?: boolean;
+            requireUserInput?: boolean;
+            kbArticleId?: string;
+            /** @enum {string} */
+            installStatus?: "INSTALLED" | "APPROVED_PENDING" | "NOT_APPROVED";
+            /** Format: int64 */
+            totalDevices?: number;
+        };
+        /** @description Site patches page */
+        SitePatchesPage: {
+            pageDetails?: components["schemas"]["PaginationData"];
+            patches?: components["schemas"]["SitePatch"][];
         };
         /** @description Filter data */
         Filter: {
@@ -1241,7 +1610,6 @@ export interface components {
             lastAuditDate?: string;
             /** Format: date-time */
             creationDate?: string;
-            udf?: components["schemas"]["Udf"];
             snmpEnabled?: boolean;
             /** @enum {string} */
             deviceClass?: "device" | "printer" | "esxihost" | "rmmnetworkdevice" | "unknown";
@@ -1617,6 +1985,124 @@ export interface components {
             pageDetails?: components["schemas"]["PaginationData"];
             jobComponents?: components["schemas"]["JobComponent"][];
         };
+        /** @description Paginated patch policies for a device */
+        PatchPoliciesPage: {
+            pageDetails?: components["schemas"]["PaginationData"];
+            policies?: components["schemas"]["PatchPolicy"][];
+        };
+        /** @description Patch policy associated with a device */
+        PatchPolicy: {
+            /** Format: int64 */
+            policyId?: number;
+            policyName?: string;
+            policyDescription?: string;
+            enabled?: boolean;
+            owner?: string;
+            ownerSite?: components["schemas"]["PatchPolicySite"];
+            deploying?: boolean;
+            dateCreated?: string;
+            dateDeployed?: string;
+            lastUpdated?: string;
+            createdBy?: string;
+            updatedBy?: string;
+            schedule?: components["schemas"]["PatchPolicySchedule"];
+            power?: components["schemas"]["PatchPolicyPower"];
+            approval?: components["schemas"]["PatchPolicyApproval"];
+            rebootBehavior?: components["schemas"]["PatchPolicyRebootBehavior"];
+        };
+        /** @description Approval section of a patch policy */
+        PatchPolicyApproval: {
+            allPatches?: boolean;
+            windowsUpdate?: boolean;
+            auditOnly?: boolean;
+            /** Format: int64 */
+            approvedPatchesCount?: number;
+            /** Format: int64 */
+            notApprovedPatchesCount?: number;
+            /** Format: int64 */
+            availablePatchesCount?: number;
+            approvalFilter?: components["schemas"]["PatchPolicyFilter"];
+            denialFilter?: components["schemas"]["PatchPolicyFilter"];
+        };
+        /** @description Structured criterion property */
+        PatchPolicyCriterionProperty: {
+            term?: string;
+            type?: string;
+        };
+        /** @description A patch policy approval or denial filter */
+        PatchPolicyFilter: {
+            /** Format: int64 */
+            filterId?: number;
+            name?: string;
+            association?: string;
+            criteria?: components["schemas"]["PatchPolicyFilterCriterion"][];
+        };
+        /** @description One criterion in a patch policy filter */
+        PatchPolicyFilterCriterion: {
+            property?: components["schemas"]["PatchPolicyCriterionProperty"];
+            restriction?: string;
+            value?: string;
+            association?: string;
+        };
+        /** @description Power section of a patch policy */
+        PatchPolicyPower: {
+            wakeAllTargetedDevices?: boolean;
+        };
+        /** @description Reboot behavior section of a patch policy */
+        PatchPolicyRebootBehavior: {
+            forceReboot?: boolean;
+            shutdown?: boolean;
+            timeForAction?: string;
+            permitRebootUsbMass?: boolean;
+            /** Format: int32 */
+            numberOfDismissals?: number;
+        };
+        /** @description Schedule and maintenance window for a patch policy */
+        PatchPolicySchedule: {
+            scheduleType?: string;
+            startDate?: string;
+            endDate?: string;
+            days?: string;
+            months?: string;
+            daysOfWeek?: string;
+            dayOfYear?: string;
+            ordering?: string;
+            /** Format: int32 */
+            duration?: number;
+            maintenanceMode?: boolean;
+        };
+        /** @description Minimal site reference on a patch policy */
+        PatchPolicySite: {
+            /** Format: int64 */
+            id?: number;
+            uid?: string;
+            name?: string;
+        };
+        /** @description Patch data for a device */
+        Patch: {
+            patchId?: string;
+            category?: string[];
+            /** @enum {string} */
+            type?: "SOFTWARE" | "DRIVER";
+            title?: string;
+            description?: string;
+            releaseDate?: string;
+            /** @enum {string} */
+            severity?: "CRITICAL" | "IMPORTANT" | "MODERATE" | "LOW" | "UNSPECIFIED";
+            /** Format: int64 */
+            maxSize?: number;
+            rebootRequired?: boolean;
+            requireUserInput?: boolean;
+            kbArticleId?: string;
+            /** @enum {string} */
+            installStatus?: "INSTALLED" | "APPROVED_PENDING" | "NOT_APPROVED";
+            manualOverride?: boolean;
+        };
+        /** @description Patches page */
+        PatchesPage: {
+            pageDetails?: components["schemas"]["PaginationData"];
+            patches?: components["schemas"]["Patch"][];
+        };
         /** @description Printer audit data */
         Printer: {
             /** Format: int64 */
@@ -1773,6 +2259,7 @@ export interface components {
             attachedDevices?: components["schemas"]["AttachedDevice"][];
             snmpInfo?: components["schemas"]["SnmpInfo"];
             physicalMemory?: components["schemas"]["PhysicalMemory"][];
+            osInfo?: components["schemas"]["OsInfo"];
         };
         /** @description Display audit data */
         Display: {
@@ -1797,6 +2284,14 @@ export interface components {
             imei?: string;
             number?: string;
             operator?: string;
+        };
+        /** @description OS info audit data */
+        OsInfo: {
+            osName?: string;
+            osVersion?: string;
+            osArchitecture?: string;
+            osDisplayVersion?: string;
+            osInstallationType?: string;
         };
         /** @description Processor audit data */
         Processor: {
@@ -1839,7 +2334,7 @@ export interface components {
              * @description Activity Log creation unix timestamp
              * @example 1689072497.714
              */
-            date?: number;
+            date?: string;
             site?: components["schemas"]["SiteBasicDto"];
             /** Format: int64 */
             deviceId?: number;
@@ -1968,6 +2463,23 @@ export interface components {
             pageDetails?: components["schemas"]["PaginationData"];
             components?: components["schemas"]["Component"][];
         };
+        /** @description Default error response body */
+        ErrorResponse: {
+            /**
+             * Format: int64
+             * @description Epoch millis when the error occurred
+             */
+            timestamp?: number;
+            /**
+             * Format: int32
+             * @description HTTP status code
+             */
+            status?: number;
+            /** @description HTTP reason phrase */
+            error?: string;
+            /** @description Request path that produced the error */
+            path?: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -1990,13 +2502,47 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        /** @description Unique alphanumeric UID of this site */
+                        uid?: string;
+                        /** @description Unique alphanumeric UID of the account to which this site belongs */
+                        accountUid?: string;
+                        name?: string;
+                        description?: string;
+                        notes?: string;
+                        onDemand?: boolean;
+                        splashtopAutoInstall?: boolean;
+                        proxySettings?: components["schemas"]["ProxySettings"];
+                        devicesStatus?: components["schemas"]["DevicesStatus"];
+                        autotaskCompanyName?: string;
+                        autotaskCompanyId?: string;
+                        portalUrl?: string;
+                    };
+                };
+            };
             /** @description Request is invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -2005,7 +2551,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -2013,14 +2567,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2039,47 +2613,114 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site/{siteUid}/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Variable was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2097,40 +2738,97 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Device and/or site not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2149,13 +2847,33 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        jobComponents?: components["schemas"]["JobComponent"][];
+                        job?: components["schemas"]["Job"];
+                    };
+                };
+            };
             /** @description Request data is invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateQuickJobResponse"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/device/{deviceUid}/quickjob"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request cannot be authorized. */
@@ -2164,7 +2882,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateQuickJobResponse"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/quickjob"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -2173,7 +2899,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateQuickJobResponse"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/quickjob"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -2182,7 +2916,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateQuickJobResponse"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/quickjob"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -2190,14 +2932,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/quickjob"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/quickjob"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2214,47 +2976,114 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/account/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Variable was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/account/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/variable"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2267,13 +3096,34 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        apiAccessKey?: string;
+                        apiSecretKey?: string;
+                        userName?: string;
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AuthUserKey"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/user/resetApiKeys"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request aborted due to concurrent write access to this record. */
@@ -2281,14 +3131,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/user/resetApiKeys"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/user/resetApiKeys"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2303,13 +3173,47 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        /** @description Unique alphanumeric UID of this site */
+                        uid?: string;
+                        /** @description Unique alphanumeric UID of the account to which this site belongs */
+                        accountUid?: string;
+                        name?: string;
+                        description?: string;
+                        notes?: string;
+                        onDemand?: boolean;
+                        splashtopAutoInstall?: boolean;
+                        proxySettings?: components["schemas"]["ProxySettings"];
+                        devicesStatus?: components["schemas"]["DevicesStatus"];
+                        autotaskCompanyName?: string;
+                        autotaskCompanyId?: string;
+                        portalUrl?: string;
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -2318,7 +3222,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -2327,7 +3239,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -2335,14 +3255,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2361,13 +3301,47 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        /** @description Unique alphanumeric UID of this site */
+                        uid?: string;
+                        /** @description Unique alphanumeric UID of the account to which this site belongs */
+                        accountUid?: string;
+                        name?: string;
+                        description?: string;
+                        notes?: string;
+                        onDemand?: boolean;
+                        splashtopAutoInstall?: boolean;
+                        proxySettings?: components["schemas"]["ProxySettings"];
+                        devicesStatus?: components["schemas"]["DevicesStatus"];
+                        autotaskCompanyName?: string;
+                        autotaskCompanyId?: string;
+                        portalUrl?: string;
+                    };
+                };
+            };
             /** @description Request is invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -2376,7 +3350,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -2385,7 +3367,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -2394,7 +3384,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Site"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request aborted due to concurrent write access to this record. */
@@ -2402,14 +3400,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2429,47 +3447,114 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Variable was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2485,47 +3570,114 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Variable was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2544,13 +3696,34 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        generalSettings?: components["schemas"]["GeneralSettings"];
+                        proxySettings?: components["schemas"]["ProxySettings"];
+                        mailRecipients?: components["schemas"]["MailRecipient"][];
+                    };
+                };
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -2559,7 +3732,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -2568,7 +3749,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -2577,7 +3766,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request aborted due to concurrent write access to this record. */
@@ -2585,14 +3782,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2619,35 +3836,85 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Site was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/settings/proxy"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2666,47 +3933,114 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request is invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/device/{deviceUid}/warranty"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request cannot be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/warranty"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/warranty"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Device was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/warranty"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/warranty"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/warranty"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2725,47 +4059,114 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request is invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/device/{deviceUid}/udf"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/udf"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/udf"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Device was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/udf"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/udf"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/udf"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2792,14 +4193,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/alert/{alertUid}/unmute"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/alert/{alertUid}/unmute"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2814,33 +4235,80 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/alert/{alertUid}/resolve"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/alert/{alertUid}/resolve"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/alert/{alertUid}/resolve"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/alert/{alertUid}/resolve"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2867,14 +4335,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/alert/{alertUid}/mute"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/alert/{alertUid}/mute"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2893,47 +4381,114 @@ export interface operations {
             };
         };
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Variable was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -2948,47 +4503,114 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
             /** @description Request parameters are invalid. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Variable was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request aborted due to concurrent write access to this record. */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/variable/{variableId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3015,14 +4637,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/system/status"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/system/status"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3035,13 +4677,47 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        slidingTimeWindowSizeSeconds?: number;
+                        accountUid?: string;
+                        /** Format: int64 */
+                        accountCount?: number;
+                        /** Format: int64 */
+                        accountRateLimit?: number;
+                        /** Format: float */
+                        accountCutOffRatio?: number;
+                        /** Format: int32 */
+                        accountWriteRateLimit?: number;
+                        /** Format: int64 */
+                        accountWriteCount?: number;
+                        operationWriteStatus?: {
+                            [key: string]: components["schemas"]["OperationRateStatus"];
+                        };
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RateStatusResponse"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/system/request_rate"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3050,7 +4726,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RateStatusResponse"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/system/request_rate"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3058,14 +4742,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/system/request_rate"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/system/request_rate"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3078,13 +4782,36 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /**
+                         * Format: int32
+                         * @description Default and maximum number of elements per AEM page (except alerts pagination)
+                         */
+                        max?: number;
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PaginationConfiguration"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/system/pagination"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3093,7 +4820,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PaginationConfiguration"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/system/pagination"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3101,14 +4836,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/system/pagination"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/system/pagination"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3126,13 +4881,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        variables?: components["schemas"]["Variable"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["VariablesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3141,7 +4916,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["VariablesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -3150,7 +4933,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["VariablesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3158,14 +4949,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3180,13 +4991,34 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        generalSettings?: components["schemas"]["GeneralSettings"];
+                        proxySettings?: components["schemas"]["ProxySettings"];
+                        mailRecipients?: components["schemas"]["MailRecipient"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/settings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3195,7 +5027,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/settings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -3204,7 +5044,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SiteSettings"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/settings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3212,14 +5060,165 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/settings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/settings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getSitePatches: {
+        parameters: {
+            query?: {
+                page?: number;
+                max?: number;
+                installStatus?: "INSTALLED" | "APPROVED_PENDING" | "NOT_APPROVED";
+            };
+            header?: never;
+            path: {
+                siteUid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        patches?: components["schemas"]["SitePatch"][];
+                    };
+                };
+            };
+            /** @description Request is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/site/{siteUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request can not be authorized. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Authenticated user doesn't have access to this resource. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Site was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3237,13 +5236,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        filters?: components["schemas"]["Filter"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3252,7 +5271,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -3261,7 +5288,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3269,14 +5304,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3295,13 +5350,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        devices?: components["schemas"]["Device"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3310,7 +5385,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site or filter not found. */
@@ -3319,7 +5402,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3327,14 +5418,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3352,13 +5463,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        devices?: components["schemas"]["Device Network Interface"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesNetworkInterfacePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/devices/network-interface"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3367,7 +5498,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesNetworkInterfacePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/devices/network-interface"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site or filter not found. */
@@ -3376,7 +5515,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesNetworkInterfacePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/devices/network-interface"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3384,14 +5531,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/devices/network-interface"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/devices/network-interface"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3410,13 +5577,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        alerts?: components["schemas"]["Alert"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3425,7 +5612,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -3434,7 +5629,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3442,14 +5645,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3468,13 +5691,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        alerts?: components["schemas"]["Alert"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/site/{siteUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3483,7 +5726,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/site/{siteUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Site was not found. */
@@ -3492,7 +5743,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/site/{siteUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3500,14 +5759,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/site/{siteUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/site/{siteUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3522,13 +5801,39 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        /** Format: date-time */
+                        dateCreated?: string;
+                        name?: string;
+                        uid?: string;
+                        /** @enum {string} */
+                        status?: "active" | "completed";
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Job"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/job/{jobUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3537,7 +5842,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Job"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/job/{jobUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Job was not found. */
@@ -3546,7 +5859,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Job"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/job/{jobUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3554,14 +5875,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/job/{jobUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/job/{jobUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3577,13 +5918,38 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        jobUid?: string;
+                        deviceUid?: string;
+                        /** Format: date-time */
+                        ranOn?: string;
+                        /** @enum {string} */
+                        jobDeploymentStatus?: "Expired" | "Pending" | "Running" | "Success" | "Warning" | "Retired" | "Failure";
+                        componentResults?: components["schemas"]["JobComponentResult"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobResults"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3592,7 +5958,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobResults"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Job or device was not found. */
@@ -3601,7 +5975,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobResults"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3609,14 +5991,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3632,13 +6034,30 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description StdOut data was found. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobStdData"][];
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobStdData"][];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stdout"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3647,7 +6066,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobStdData"][];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stdout"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Job or device was not found. */
@@ -3656,7 +6083,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobStdData"][];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stdout"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3664,14 +6099,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stdout"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stdout"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3687,13 +6142,30 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description StdErr data was found. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobStdData"][];
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobStdData"][];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stderr"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3702,7 +6174,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobStdData"][];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stderr"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Job or device was not found. */
@@ -3711,7 +6191,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobStdData"][];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stderr"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3719,14 +6207,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stderr"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/job/{jobUid}/results/{deviceUid}/stderr"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3744,13 +6252,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        jobComponents?: components["schemas"]["JobComponent"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobComponentsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/job/{jobUid}/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3759,7 +6287,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobComponentsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/job/{jobUid}/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Job was not found. */
@@ -3768,7 +6304,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JobComponentsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/job/{jobUid}/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3776,14 +6320,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/job/{jobUid}/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/job/{jobUid}/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3799,13 +6363,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        filters?: components["schemas"]["Filter"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/filter/default-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3814,7 +6398,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/filter/default-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3822,14 +6414,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/filter/default-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/filter/default-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3845,13 +6457,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        filters?: components["schemas"]["Filter"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/filter/custom-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3860,7 +6492,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FiltersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/filter/custom-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3868,14 +6508,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/filter/custom-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/filter/custom-filters"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3890,13 +6550,72 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        uid?: string;
+                        /** Format: int64 */
+                        siteId?: number;
+                        siteUid?: string;
+                        siteName?: string;
+                        deviceType?: components["schemas"]["DevicesType"];
+                        hostname?: string;
+                        intIpAddress?: string;
+                        operatingSystem?: string;
+                        lastLoggedInUser?: string;
+                        domain?: string;
+                        cagVersion?: string;
+                        displayVersion?: string;
+                        extIpAddress?: string;
+                        description?: string;
+                        a64Bit?: boolean;
+                        rebootRequired?: boolean;
+                        online?: boolean;
+                        suspended?: boolean;
+                        deleted?: boolean;
+                        /** Format: date-time */
+                        lastSeen?: string;
+                        /** Format: date-time */
+                        lastReboot?: string;
+                        /** Format: date-time */
+                        lastAuditDate?: string;
+                        /** Format: date-time */
+                        creationDate?: string;
+                        snmpEnabled?: boolean;
+                        /** @enum {string} */
+                        deviceClass?: "device" | "printer" | "esxihost" | "rmmnetworkdevice" | "unknown";
+                        portalUrl?: string;
+                        warrantyDate?: string;
+                        antivirus?: components["schemas"]["Antivirus"];
+                        patchManagement?: components["schemas"]["PatchManagement"];
+                        softwareStatus?: string;
+                        webRemoteUrl?: string;
+                        networkProbe?: boolean;
+                        onboardedViaNetworkMonitor?: boolean;
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Device"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3905,7 +6624,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Device"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -3914,7 +6641,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Device"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3922,14 +6657,292 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getDevicePatchPolicies: {
+        parameters: {
+            query?: {
+                page?: number;
+                max?: number;
+            };
+            header?: never;
+            path: {
+                deviceUid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Patch policies returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PatchPoliciesPage"];
+                };
+            };
+            /** @description Request is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/device/{deviceUid}/policies/patch-management"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request can not be authorized. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/policies/patch-management"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Authenticated user doesn't have access to this resource. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/policies/patch-management"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Device was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/policies/patch-management"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/policies/patch-management"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/policies/patch-management"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getDevicePatches: {
+        parameters: {
+            query?: {
+                page?: number;
+                max?: number;
+                installStatus?: "INSTALLED" | "APPROVED_PENDING" | "NOT_APPROVED";
+            };
+            header?: never;
+            path: {
+                deviceUid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        patches?: components["schemas"]["Patch"][];
+                    };
+                };
+            };
+            /** @description Request is invalid. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/device/{deviceUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request can not be authorized. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Authenticated user doesn't have access to this resource. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Device was not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/patches"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -3948,13 +6961,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        alerts?: components["schemas"]["Alert"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -3963,7 +6996,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -3972,7 +7013,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -3980,14 +7029,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4006,13 +7075,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        alerts?: components["schemas"]["Alert"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/{deviceUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4021,7 +7110,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/{deviceUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -4030,7 +7127,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/{deviceUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4038,14 +7143,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/{deviceUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/{deviceUid}/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4074,35 +7199,85 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Device was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4117,13 +7292,72 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        uid?: string;
+                        /** Format: int64 */
+                        siteId?: number;
+                        siteUid?: string;
+                        siteName?: string;
+                        deviceType?: components["schemas"]["DevicesType"];
+                        hostname?: string;
+                        intIpAddress?: string;
+                        operatingSystem?: string;
+                        lastLoggedInUser?: string;
+                        domain?: string;
+                        cagVersion?: string;
+                        displayVersion?: string;
+                        extIpAddress?: string;
+                        description?: string;
+                        a64Bit?: boolean;
+                        rebootRequired?: boolean;
+                        online?: boolean;
+                        suspended?: boolean;
+                        deleted?: boolean;
+                        /** Format: date-time */
+                        lastSeen?: string;
+                        /** Format: date-time */
+                        lastReboot?: string;
+                        /** Format: date-time */
+                        lastAuditDate?: string;
+                        /** Format: date-time */
+                        creationDate?: string;
+                        snmpEnabled?: boolean;
+                        /** @enum {string} */
+                        deviceClass?: "device" | "printer" | "esxihost" | "rmmnetworkdevice" | "unknown";
+                        portalUrl?: string;
+                        warrantyDate?: string;
+                        antivirus?: components["schemas"]["Antivirus"];
+                        patchManagement?: components["schemas"]["PatchManagement"];
+                        softwareStatus?: string;
+                        webRemoteUrl?: string;
+                        networkProbe?: boolean;
+                        onboardedViaNetworkMonitor?: boolean;
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Device"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/device/id/{deviceId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4132,7 +7366,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Device"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/device/id/{deviceId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -4141,7 +7383,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Device"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/device/id/{deviceId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4149,14 +7399,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/device/id/{deviceId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/device/id/{deviceId}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4171,13 +7441,37 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        portalUrl?: string;
+                        snmpInfo?: components["schemas"]["SnmpInfo"];
+                        printerMarkerSupplies?: components["schemas"]["PrinterMarkerSupply"][];
+                        printer?: components["schemas"]["Printer"];
+                        systemInfo?: components["schemas"]["PrinterSystemInfo"];
+                        nics?: components["schemas"]["NetworkInterface"][];
+                    };
+                };
+            };
             /** @description The device identified by the given device UID is not of class printer. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PrinterAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/audit/printer/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -4186,7 +7480,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PrinterAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/audit/printer/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4195,7 +7497,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PrinterAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/audit/printer/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Printer was not found. */
@@ -4204,7 +7514,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PrinterAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/audit/printer/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4212,14 +7530,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/audit/printer/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/audit/printer/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4234,13 +7572,38 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        portalUrl?: string;
+                        systemInfo?: components["schemas"]["ESXiSystemInfo"];
+                        guests?: components["schemas"]["Guest"][];
+                        processors?: components["schemas"]["ESXiProcessor"][];
+                        nics?: components["schemas"]["ESXiNic"][];
+                        physicalMemory?: components["schemas"]["PhysicalMemory"][];
+                        datastores?: components["schemas"]["ESXiDatastore"][];
+                    };
+                };
+            };
             /** @description The device identified by the given device UID is not of class ESXi host. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ESXiHostAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/audit/esxihost/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -4249,7 +7612,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ESXiHostAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/audit/esxihost/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4258,7 +7629,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ESXiHostAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/audit/esxihost/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -4267,7 +7646,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ESXiHostAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/audit/esxihost/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4275,14 +7662,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/audit/esxihost/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/audit/esxihost/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4297,13 +7704,46 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        portalUrl?: string;
+                        webRemoteUrl?: string;
+                        systemInfo?: components["schemas"]["SystemInfo"];
+                        nics?: components["schemas"]["NetworkInterface"][];
+                        bios?: components["schemas"]["Bios"];
+                        baseBoard?: components["schemas"]["BaseBoard"];
+                        displays?: components["schemas"]["Display"][];
+                        logicalDisks?: components["schemas"]["LogicalDisk"][];
+                        mobileInfo?: components["schemas"]["MobileInfo"][];
+                        processors?: components["schemas"]["Processor"][];
+                        videoBoards?: components["schemas"]["VideoBoard"][];
+                        attachedDevices?: components["schemas"]["AttachedDevice"][];
+                        snmpInfo?: components["schemas"]["SnmpInfo"];
+                        physicalMemory?: components["schemas"]["PhysicalMemory"][];
+                        osInfo?: components["schemas"]["OsInfo"];
+                    };
+                };
+            };
             /** @description The device identified by the given device UID is not of class device. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DeviceAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/audit/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -4312,7 +7752,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DeviceAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/audit/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4321,7 +7769,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DeviceAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/audit/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -4330,7 +7786,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DeviceAudit"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/audit/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4338,14 +7802,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/audit/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/audit/device/{deviceUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4363,13 +7847,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        software?: components["schemas"]["Software"][];
+                    };
+                };
+            };
             /** @description The device identified by the given device UID is not of class device. */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SoftwarePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/audit/device/{deviceUid}/software"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Request can not be authorized. */
@@ -4378,7 +7882,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SoftwarePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/audit/device/{deviceUid}/software"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4387,7 +7899,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SoftwarePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/audit/device/{deviceUid}/software"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Device was not found. */
@@ -4396,7 +7916,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SoftwarePage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/audit/device/{deviceUid}/software"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4404,14 +7932,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/audit/device/{deviceUid}/software"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/audit/device/{deviceUid}/software"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4440,42 +7988,102 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/audit/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/audit/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/audit/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Device was not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/audit/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/audit/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/audit/device/macAddress/{macAddress}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4490,13 +8098,49 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        alertUid?: string;
+                        /** @enum {string} */
+                        priority?: "Critical" | "High" | "Moderate" | "Low" | "Information" | "Unknown";
+                        diagnostics?: string;
+                        resolved?: boolean;
+                        resolvedBy?: string;
+                        /** Format: date-time */
+                        resolvedOn?: string;
+                        muted?: boolean;
+                        ticketNumber?: string;
+                        /** Format: date-time */
+                        timestamp?: string;
+                        alertMonitorInfo?: components["schemas"]["AlertMonitorInfo"];
+                        alertContext?: components["schemas"]["AlertContext"];
+                        alertSourceInfo?: components["schemas"]["AlertSourceInfo"];
+                        responseActions?: components["schemas"]["ResponseAction"][];
+                        /** Format: int32 */
+                        autoresolveMins?: number;
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Alert"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/alert/{alertUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4505,7 +8149,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Alert"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/alert/{alertUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4513,14 +8165,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/alert/{alertUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/alert/{alertUid}"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4579,6 +8251,11 @@ export interface operations {
                  * @example 1,4
                  */
                 userIds?: number[];
+                /**
+                 * @description Enter queries using single words, phrases, terms containing wildcards or boolean operators, fuzzy searches, grouped searches, or special characters. See <a href="https://rmm.datto.com/help/en/Content/3NEWUI/Analytics/ActivityLog.htm">Activity Log</a> for more details.
+                 * @example data.filter_id : "filterId" AND device.hostname : "hostname"
+                 */
+                searchQuery?: string;
             };
             header?: never;
             path?: never;
@@ -4600,35 +8277,85 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 400,
+                     *       "error": "Bad Request",
+                     *       "path": "/v2/activity-logs"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/activity-logs"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Authenticated user doesn't have access to this resource. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/activity-logs"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/activity-logs"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/activity-logs"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4641,13 +8368,38 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: int64 */
+                        id?: number;
+                        name?: string;
+                        descriptor?: components["schemas"]["Account Descriptor"];
+                        uid?: string;
+                        currency?: string;
+                        devicesStatus?: components["schemas"]["AccountDevicesStatus"];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Account"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4656,7 +8408,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Account"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4664,14 +8424,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4687,13 +8467,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        variables?: components["schemas"]["Variable"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["VariablesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4702,7 +8502,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["VariablesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4710,14 +8518,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/variables"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4733,13 +8561,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        users?: components["schemas"]["AuthUser"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UsersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/users"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4748,7 +8596,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UsersPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/users"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4756,14 +8612,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/users"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/users"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4781,13 +8657,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        sites?: components["schemas"]["Site"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SitesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/sites"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4796,7 +8692,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SitesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/sites"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4804,14 +8708,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/sites"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/sites"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4827,13 +8751,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        dnetSiteMappings?: components["schemas"]["DnetSiteMappingsDto"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DnetSiteMappingsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/dnet-site-mappings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4842,7 +8786,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DnetSiteMappingsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/dnet-site-mappings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4850,14 +8802,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/dnet-site-mappings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/dnet-site-mappings"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4883,13 +8855,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        devices?: components["schemas"]["Device"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4898,7 +8890,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Filter was not found. */
@@ -4907,7 +8907,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["DevicesPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 404,
+                     *       "error": "Not Found",
+                     *       "path": "/v2/account/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4915,14 +8923,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/devices"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4938,13 +8966,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        components?: components["schemas"]["Component"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ComponentsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -4953,7 +9001,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ComponentsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -4961,14 +9017,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/components"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -4985,13 +9061,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        alerts?: components["schemas"]["Alert"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -5000,7 +9096,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -5008,14 +9112,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/alerts/resolved"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
@@ -5032,13 +9156,33 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pageDetails?: components["schemas"]["PaginationData"];
+                        alerts?: components["schemas"]["Alert"][];
+                    };
+                };
+            };
             /** @description Request can not be authorized. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 401,
+                     *       "error": "Unauthorized",
+                     *       "path": "/v2/account/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Authenticated user doesn't have access to this resource. */
@@ -5047,7 +9191,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AlertsPage"];
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 403,
+                     *       "error": "Forbidden",
+                     *       "path": "/v2/account/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Conflict */
@@ -5055,14 +9207,34 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 409,
+                     *       "error": "Conflict",
+                     *       "path": "/v2/account/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    /**
+                     * @example {
+                     *       "timestamp": 1781181715656,
+                     *       "status": 500,
+                     *       "error": "Internal Server Error",
+                     *       "path": "/v2/account/alerts/open"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
